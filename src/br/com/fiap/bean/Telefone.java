@@ -11,4 +11,6 @@ public class Telefone {
     public Telefone(String telefone) {
         this.telefone = telefone;
     }
+
+    //setter/getter
 }
