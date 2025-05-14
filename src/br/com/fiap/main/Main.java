@@ -10,12 +10,16 @@ import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
+
         Paciente paciente= new Paciente();
-        DateTimeFormatter dtm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        Paciente paciente1 = new Paciente("Marina Costa Oliveira");
         Medico medico= new Medico(" Lucas Andrade Pereira","0","Cardiovascula");
         Consulta consulta = new Consulta(LocalDate.of(2025,4,13), LocalTime.of(18,0));
-        String repetir="s";
-        while (repetir.equalsIgnoreCase("s"))
+        Telefone telefone = new Telefone();
+        DateTimeFormatter dtm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        String repetir="sim";
+
+        while (repetir.equalsIgnoreCase("sim"))
             try {
 
                 //ABA Paciete-entrada
@@ -92,7 +96,7 @@ public class Main {
                     paciente.setCpf(entraCpf.getText());
                     LocalDate data = LocalDate.parse(entradataDeNascimento.getText(),dtm);
                     paciente.setDataDeNascimento(data);
-                    paciente.setTelefone(entradaTelefone.getText());
+                    telefone.setTelefone(entradaTelefone.getText());
 
                     //Aba Endereco
                     String cep = entradaCep.getText();
@@ -104,7 +108,7 @@ public class Main {
                             paciente.getNome(),
                             paciente.getCpf(),
                             paciente.calcularIdade(),
-                            paciente.getTelefone(),
+                            telefone.getTelefone(),
                             endereco.getCep(),
                             endereco.getLagradouro(),
                             endereco.getNumero(),
@@ -115,13 +119,14 @@ public class Main {
                     Object [] options ={"Fazer novamente","Prosseguir"};
                     int escolha = JOptionPane.showOptionDialog(null,msgDeConfirmacao,"Comfirme as informações",JOptionPane.YES_NO_OPTION,
                             JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+
                     if(escolha == 0){
-                        repetir = "s";
+                        repetir = "sim";
                     }else if(escolha==1) {
 
                         JPanel painelConsulta = new JPanel(new GridBagLayout());
                         gbc.gridx=0; gbc.gridy=0;
-                        painelConsulta.add(new JLabel(String.format("Prontuário/Paciente: %s",medico.getNomeMedico().toUpperCase())),gbc);
+                        painelConsulta.add(new JLabel(String.format("Prontuário/Paciente: %s",paciente1.getNome().toUpperCase())),gbc);
                         gbc.gridy=1;
                         painelConsulta.add(new JLabel(String.format("Data Nasc./Idade: %s - %d",entradataDeNascimento.getText(),paciente.calcularIdade())),gbc);
                         gbc.gridy=3;
@@ -130,6 +135,7 @@ public class Main {
                         painelConsulta.add(new JLabel(String.format("Profissional do Atendimento: CRM-%s - Dr.%s",medico.gerarCrm(),medico.getNomeMedico())),gbc);
 
                         int painelConsultaInfo = JOptionPane.showConfirmDialog(null, painelConsulta, "Consulta", JOptionPane.OK_CANCEL_OPTION);
+                        break;
 
                     }else{
                         break;

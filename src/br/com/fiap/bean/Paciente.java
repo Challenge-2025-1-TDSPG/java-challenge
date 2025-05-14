@@ -3,20 +3,23 @@ package br.com.fiap.bean;
 import javax.swing.*;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.format.DateTimeFormatter;
+
 
 public class Paciente {
     //atributos
     private String nome;
     private String cpf;
     private LocalDate dataDeNascimento;
-    private String telefone;
+
 
 
     //construtores
     public Paciente() {
     }
 
+    public Paciente(String nome) {
+        this.nome = nome;
+    }
 
     //setter/getter
     public String getNome() {
@@ -51,25 +54,6 @@ public class Paciente {
 
     public void setDataDeNascimento(LocalDate dataDeNascimento) {
         this.dataDeNascimento = dataDeNascimento;
-    }
-
-    public String getTelefone() {
-        if(telefone.length() == 11){
-            return String.format("(%s)%s",
-                telefone.substring(0,2),
-                telefone.substring(2,11));
-        }else{
-        return telefone;
-        }
-    }
-
-    public void setTelefone(String telefone) {
-        if (telefone.length()==11 || telefone.length()==9){
-            this.telefone = telefone;
-        }else{
-            JOptionPane.showMessageDialog(null, "erro no telefone.");
-        }
-
     }
 
 
