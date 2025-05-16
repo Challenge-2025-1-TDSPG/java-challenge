@@ -103,6 +103,7 @@ public class Main {
                     endereco.setLagradouro(entradaLogradouro.getText());
                     endereco.setNumero(entradaComplemento.getText());
 
+                    //painel de confirmação
                     String msgDeConfirmacao = String.format(" \nNome: %s\nCPF: %s\nIdade: %d \nTelefone: %s \n\nEndereço: \nCEP: %s \nLogradouro: %s \nNúmero: %s \nBairro: %s \nCidade: %s \nEstado: %s \n\nAs informações estão certas?",
                             paciente.getNome(),
                             paciente.getCpf(),
@@ -116,13 +117,12 @@ public class Main {
                             endereco.getUf());
 
                     Object [] options ={"Fazer novamente","Prosseguir"};
-                    int escolha = JOptionPane.showOptionDialog(null,msgDeConfirmacao,"Comfirme as informações",JOptionPane.YES_NO_OPTION,
-                            JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    int escolha = JOptionPane.showOptionDialog(null,msgDeConfirmacao,"Comfirme as informações",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 
                     if(escolha == 0){
                         repetir = "sim";
                     }else if(escolha==1) {
-
+                        //painel de dados da consulta
                         JPanel painelConsulta = new JPanel(new GridBagLayout());
                         gbc.gridx=0; gbc.gridy=0;
                         painelConsulta.add(new JLabel(String.format("Prontuário/Paciente: %s",paciente.getNome().toUpperCase())),gbc);
@@ -134,17 +134,24 @@ public class Main {
                         painelConsulta.add(new JLabel(String.format("Profissional do Atendimento: CRM-%s - Dr.%s",medico.gerarCrm(),medico.getNomeMedico())),gbc);
 
                         int painelConsultaInfo = JOptionPane.showConfirmDialog(null, painelConsulta, "Consulta", JOptionPane.OK_CANCEL_OPTION);
+                        //parte do Feedback
                         if(painelConsultaInfo ==0){
                             JPanel painelFeed = new JPanel(new GridBagLayout());
                             JTextArea entraDaFeed = new JTextArea(12,30);
+                            JLabel textofeed = new JLabel(String.format("<html><body style='width:300px;'>%s, queremos saber a sua opinião!<br>Como foi sua consulta?<br>Deixe seu feedback para que possamos continuar melhorando.</body></html>",paciente.getNome()));
 
                             gbc.gridx=1; gbc.gridy=1;
-                            painelFeed.add(new Label(String.format("%s Queremos saber a sua opinião! Como foi sua consulta? Deixe seu feedback para que possamos continuar melhorando.", paciente.getNome())),gbc);
+                            painelFeed.add(textofeed,gbc);
                             gbc.gridy=2;
                             painelFeed.add(entraDaFeed,gbc);
 
-                            int painelFeddback = JOptionPane.showConfirmDialog(null, painelFeed,"FeedBack" , JOptionPane.OK_CANCEL_OPTION);
+                            Object [] optionsFeed = {"enviar", "sair"};
+                            int painelFeddback = JOptionPane.showOptionDialog(null,painelFeed,"Comfirme as informações",JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, optionsFeed, optionsFeed[0]);
 
+                            if (painelFeddback == 0){
+                                JOptionPane.showMessageDialog(null,"Obrigado pelo seu feedback! Sua opinião é muito importante para nós e nos ajuda a melhorar cada vez mais");
+                            }
+                            break;
                         }
                         break;
 
