@@ -22,6 +22,7 @@ public class Consulta {
 
     //getter/setter
     public LocalDate getData() {
+
         return data;
     }
 

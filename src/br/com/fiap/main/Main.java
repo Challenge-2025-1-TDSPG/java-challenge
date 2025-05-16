@@ -10,23 +10,24 @@ import java.time.format.DateTimeFormatter;
 
 public class Main {
     public static void main(String[] args) {
-
+        Telefone telefone = new Telefone();
         Paciente paciente= new Paciente();
         Medico medico= new Medico(" Lucas Andrade Pereira","0","Cardiovascula");
-        Consulta consulta = new Consulta(LocalDate.of(2025,4,13), LocalTime.of(18,0));
-        Telefone telefone = new Telefone();
+        Consulta consulta = new Consulta(LocalDate.of(2025,4,5), LocalTime.of(18,0));
+
+        //formato data
         DateTimeFormatter dtm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
         String repetir="sim";
 
         while (repetir.equalsIgnoreCase("sim"))
             try {
-
-                //ABA Paciete-entrada
-                JPanel painel = new JPanel(new GridBagLayout());
                 GridBagConstraints gbc =new GridBagConstraints();
                 gbc.insets = new Insets(2,2,2,2);
                 gbc.anchor= GridBagConstraints.WEST;
 
+                //ABA Paciete-entrada
+                JPanel painel = new JPanel(new GridBagLayout());
 
                 //Nome
                 JTextField entradaNome = new JTextField(18);
@@ -129,7 +130,8 @@ public class Main {
                         gbc.gridy=1;
                         painelConsulta.add(new JLabel(String.format("Data Nasc./Idade: %s - %d anos",entradataDeNascimento.getText(),paciente.calcularIdade())),gbc);
                         gbc.gridy=3;
-                        painelConsulta.add(new JLabel(String.format("Registro de Atendimento: %s - %s",consulta.geraProtocolo(),consulta.getData())),gbc);
+                        String dataFormatada = consulta.getData().format(dtm);
+                        painelConsulta.add(new JLabel(String.format("Registro de Atendimento: %s - %s",consulta.geraProtocolo(),dataFormatada)),gbc);
                         gbc.gridy=4;
                         painelConsulta.add(new JLabel(String.format("Profissional do Atendimento: CRM-%s - Dr.%s",medico.gerarCrm(),medico.getNomeMedico())),gbc);
 
