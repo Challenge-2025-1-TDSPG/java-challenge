@@ -12,7 +12,6 @@ public class Main {
     public static void main(String[] args) {
 
         Paciente paciente= new Paciente();
-        Paciente paciente1 = new Paciente("Marina Costa Oliveira");
         Medico medico= new Medico(" Lucas Andrade Pereira","0","Cardiovascula");
         Consulta consulta = new Consulta(LocalDate.of(2025,4,13), LocalTime.of(18,0));
         Telefone telefone = new Telefone();
@@ -126,15 +125,27 @@ public class Main {
 
                         JPanel painelConsulta = new JPanel(new GridBagLayout());
                         gbc.gridx=0; gbc.gridy=0;
-                        painelConsulta.add(new JLabel(String.format("Prontuário/Paciente: %s",paciente1.getNome().toUpperCase())),gbc);
+                        painelConsulta.add(new JLabel(String.format("Prontuário/Paciente: %s",paciente.getNome().toUpperCase())),gbc);
                         gbc.gridy=1;
-                        painelConsulta.add(new JLabel(String.format("Data Nasc./Idade: %s - %d",entradataDeNascimento.getText(),paciente.calcularIdade())),gbc);
+                        painelConsulta.add(new JLabel(String.format("Data Nasc./Idade: %s - %d anos",entradataDeNascimento.getText(),paciente.calcularIdade())),gbc);
                         gbc.gridy=3;
                         painelConsulta.add(new JLabel(String.format("Registro de Atendimento: %s - %s",consulta.geraProtocolo(),consulta.getData())),gbc);
                         gbc.gridy=4;
                         painelConsulta.add(new JLabel(String.format("Profissional do Atendimento: CRM-%s - Dr.%s",medico.gerarCrm(),medico.getNomeMedico())),gbc);
 
                         int painelConsultaInfo = JOptionPane.showConfirmDialog(null, painelConsulta, "Consulta", JOptionPane.OK_CANCEL_OPTION);
+                        if(painelConsultaInfo ==0){
+                            JPanel painelFeed = new JPanel(new GridBagLayout());
+                            JTextArea entraDaFeed = new JTextArea(12,30);
+
+                            gbc.gridx=1; gbc.gridy=1;
+                            painelFeed.add(new Label(String.format("%s Queremos saber a sua opinião! Como foi sua consulta? Deixe seu feedback para que possamos continuar melhorando.", paciente.getNome())),gbc);
+                            gbc.gridy=2;
+                            painelFeed.add(entraDaFeed,gbc);
+
+                            int painelFeddback = JOptionPane.showConfirmDialog(null, painelFeed,"FeedBack" , JOptionPane.OK_CANCEL_OPTION);
+
+                        }
                         break;
 
                     }else{
@@ -142,7 +153,6 @@ public class Main {
                     }
 
                 }else {
-
                     break;
                 }
 
