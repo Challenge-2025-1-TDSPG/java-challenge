@@ -2,6 +2,7 @@ package br.com.fiap.main;
 import br.com.fiap.bean.*;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 import java.time.LocalDate;
@@ -14,6 +15,10 @@ public class Main {
         Paciente paciente= new Paciente();
         Medico medico= new Medico(" Lucas Andrade Pereira","0","Cardiovascula");
         Consulta consulta = new Consulta(LocalDate.of(2025,4,5), LocalTime.of(18,0));
+
+
+        Consulta consulta1 =new Consulta(LocalDate.of(2025,3,10), LocalTime.of(12,0));
+        Consulta consulta2 =new Consulta(LocalDate.of(2025,2,10), LocalTime.of(12,0));
 
         //formato data
         DateTimeFormatter dtm = DateTimeFormatter.ofPattern("dd/MM/yyyy");
@@ -136,8 +141,32 @@ public class Main {
                         painelConsulta.add(new JLabel(String.format("Profissional do Atendimento: CRM-%s - Dr.%s",medico.gerarCrm(),medico.getNomeMedico())),gbc);
 
                         int painelConsultaInfo = JOptionPane.showConfirmDialog(null, painelConsulta, "Consulta", JOptionPane.OK_CANCEL_OPTION);
-                        //parte do Feedback
-                        if(painelConsultaInfo ==0){
+
+
+                        if(painelConsultaInfo >= 0 ){
+
+                            HistoricoConsulta historico = new HistoricoConsulta(paciente.getNome(), paciente.getCpf(),paciente.getDataDeNascimento(),consulta1.getData(),consulta1.getHora(),consulta.getProtocolo(),"Retorno");
+                            HistoricoConsulta historico2 = new HistoricoConsulta(paciente.getNome(), paciente.getCpf(),paciente.getDataDeNascimento(),consulta2.getData(),consulta2.getHora(),consulta.getProtocolo(),"Consulta médica");
+                            JPanel painelHist = new JPanel(new BorderLayout());
+                            String dataH = historico.getData().format(dtm);
+                            String dataH2 = historico2.getData().format(dtm);
+                            String[] colunas = {"DATA", "HORAS", "PROTOCOLO", "DESCRIÇÃO"};
+
+                            Object[][] dados = {
+                                    {dataH, historico.getHora(), consulta.getProtocolo(), historico.getDescricao()},
+                                    {dataH2, historico2.getHora(), consulta.getProtocolo(), historico2.getDescricao()},
+                            };
+
+                            DefaultTableModel modelo = new DefaultTableModel(dados, colunas);
+                            JTable tabela = new JTable(modelo);
+                            JScrollPane scroll = new JScrollPane(tabela);
+                            scroll.setPreferredSize(new Dimension(500, 150));
+                            painelHist.add(scroll, BorderLayout.CENTER);
+
+                            int option = JOptionPane.showConfirmDialog(null, painelHist, "Histórico De Consultas", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE
+                            );
+
+                            //parte do Feedback
                             JPanel painelFeed = new JPanel(new GridBagLayout());
                             JTextArea entraDaFeed = new JTextArea(12,30);
                             JLabel textofeed = new JLabel(String.format("<html><body style='width:300px;'>%s, queremos saber a sua opinião!<br>Como foi sua consulta?<br>Deixe seu feedback para que possamos continuar melhorando.</body></html>",paciente.getNome()));
@@ -153,7 +182,7 @@ public class Main {
                             if (painelFeddback == 0){
                                 JOptionPane.showMessageDialog(null,"Obrigado pelo seu feedback! Sua opinião é muito importante para nós e nos ajuda a melhorar cada vez mais");
                             }
-                            break;
+
                         }
                         break;
 
@@ -167,6 +196,7 @@ public class Main {
 
 
             } catch (Exception e) {
+
                 Object [] options ={"sim","não"};
                 int erroDeCadastro = JOptionPane.showOptionDialog(null,"Erro ao validar dados de cadastro, \ngostaria de fazer novamente?","Erro ao validar",JOptionPane.YES_NO_OPTION,
                         JOptionPane.ERROR_MESSAGE, null, options, options[0]);

@@ -17,8 +17,10 @@ public class Paciente {
     public Paciente() {
     }
 
-    public Paciente(String nome) {
+    public Paciente(String nome, String cpf, LocalDate dataDeNascimento) {
         this.nome = nome;
+        this.cpf = cpf;
+        this.dataDeNascimento = dataDeNascimento;
     }
 
     //setter/getter

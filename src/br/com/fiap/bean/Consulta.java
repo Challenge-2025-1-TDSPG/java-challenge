@@ -2,9 +2,10 @@ package br.com.fiap.bean;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class Consulta {
+public class Consulta extends Paciente{
     //atributos
     private LocalDate data;
     private LocalTime hora;
@@ -14,11 +15,18 @@ public class Consulta {
     //construtores
     public Consulta(){
     }
+
     public Consulta(LocalDate data, LocalTime hora) {
         this.data = data;
         this.hora = hora;
     }
 
+    public Consulta(String nome, String cpf, LocalDate dataDeNascimento, LocalDate data, LocalTime hora, String protocolo) {
+        super(nome, cpf, dataDeNascimento);
+        this.data = data;
+        this.hora = hora;
+        this.protocolo = protocolo;
+    }
 
     //getter/setter
     public LocalDate getData() {
