@@ -3,7 +3,7 @@ package br.com.fiap.bean;
 public class Endereco {
     //atributos
     private String cep ;
-    private String lagradouro;
+    private String logradouro;
     private String numero;
     private String bairro;
     private String localidade;
@@ -16,7 +16,7 @@ public class Endereco {
 
     public Endereco(String cep, String lagradouro, String numero, String bairro, String localidade, String uf) {
         this.cep = cep;
-        this.lagradouro = lagradouro;
+        this.logradouro = lagradouro;
         this.numero = numero;
         this.bairro = bairro;
         this.localidade = localidade;
@@ -35,12 +35,12 @@ public class Endereco {
 
     }
 
-    public String getLagradouro() {
-        return lagradouro;
+    public String getLogradouro() {
+        return logradouro;
     }
 
-    public void setLagradouro(String lagradouro) {
-        this.lagradouro = lagradouro;
+    public void setLogradouro(String logradouro) {
+        this.logradouro = logradouro;
     }
 
     public String getNumero() {

@@ -106,7 +106,7 @@ public class Main {
                     //Aba Endereco
                     String cep = entradaCep.getText();
                     Endereco endereco = ValidacaoViaCep.buscarEnderecoPorCEP(cep);
-                    endereco.setLagradouro(entradaLogradouro.getText());
+                    endereco.setLogradouro(entradaLogradouro.getText());
                     endereco.setNumero(entradaComplemento.getText());
 
                     //painel de confirmação
@@ -116,7 +116,7 @@ public class Main {
                             paciente.calcularIdade(),
                             telefone.getTelefone(),
                             endereco.getCep(),
-                            endereco.getLagradouro(),
+                            endereco.getLogradouro(),
                             endereco.getNumero(),
                             endereco.getBairro(),
                             endereco.getLocalidade(),
