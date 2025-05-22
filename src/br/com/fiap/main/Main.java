@@ -99,7 +99,20 @@ public class Main {
                     //Aba Paciente
                     paciente.setNome(entradaNome.getText());
                     paciente.setCpf(entraCpf.getText());
-                    LocalDate data = LocalDate.parse(entradataDeNascimento.getText(),dtm);
+                    LocalDate data = null;
+                    boolean dataValida = false;
+
+                    while (!dataValida) {
+                        try {
+                            data = LocalDate.parse(entradataDeNascimento.getText(), dtm);
+                            dataValida = true;
+                        } catch (Exception e) {
+                            JOptionPane.showMessageDialog(null, "Data inválida! Use o formato dd/MM/yyyy.");
+                            entradataDeNascimento.setText(
+                                    JOptionPane.showInputDialog("Digite novamente a data no formato dd/MM/yyyy:")
+                            );
+                        }
+                    }
                     paciente.setDataDeNascimento(data);
                     telefone.setTelefone(entradaTelefone.getText());
 
