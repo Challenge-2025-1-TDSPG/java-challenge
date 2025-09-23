@@ -1,0 +1,135 @@
+package br.com.fiap.model.dao;
+
+import br.com.fiap.model.dto.User;
+
+import java.sql.*;
+import java.util.ArrayList;
+
+public class UserDAO {
+    private Connection con;
+    private User user;
+
+    public UserDAO(Connection con) {
+        this.con = con;
+    }
+
+    public Connection getCon() {
+        return con;
+    }
+
+    // Create
+    public String create(Object object){
+        user =(User) object;
+        String sql = "INSERT INTO USUARIO (CPF_USER, NOME_USER, EMAIL_USER, DT_NASCIMENTO_USER, TELEFONE_USER) VALUES (?, ?, ?, ?, ?)";
+        try (PreparedStatement ps =getCon().prepareStatement(sql)){
+            ps.setString(1, user.getCpf());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getEmail());
+            ps.setDate(4, java.sql.Date.valueOf(user.getDataDeNascimento()));
+            ps.setString(5, user.getTelefone());
+
+            if (ps.executeUpdate() > 0) {
+                return "Inserido com sucesso.";
+            } else {
+                return "Erro ao inserir";
+            }
+        } catch (SQLException e) {
+            return "Erro de SQL: " + e.getMessage();
+        }
+    }
+
+    // Update
+    public String update(Object object){
+        user = (User) object;
+        String sql = "UPDATE USUARIO SET NOME_USER=?, DT_NASCIMENTO_USER=?, EMAIL_USER=?, TELEFONE_USER=? WHERE CPF_USER=?";
+        try (PreparedStatement ps = getCon().prepareStatement(sql)) {
+            ps.setString(1, user.getName());
+            ps.setDate(2, Date.valueOf(user.getDataDeNascimento()));
+            ps.setString(3, user.getEmail());
+            ps.setString(4, user.getTelefone());
+            ps.setString(5, user.getCpf());
+
+            if (ps.executeUpdate() > 0) {
+                return "Alterado com sucesso.";
+            } else {
+                return "Erro ao alterar";
+            }
+        } catch (SQLException e){
+            return "Erro de SQL: " + e.getMessage();
+        }
+    }
+
+    // DELETE
+    public String delete(Object object) {
+        user = (User) object;
+        String sql = "DELETE FROM USUARIO WHERE CPF_USER=?";
+        try (PreparedStatement ps = getCon().prepareStatement(sql)) {
+            ps.setString(1, user.getCpf());
+
+            if (ps.executeUpdate() > 0) {
+                return "Excluído com sucesso.";
+            } else {
+                return "Erro ao excluir.";
+            }
+        } catch (SQLException e) {
+            return "Erro de SQL: " + e.getMessage();
+        }
+    }
+
+    // READ ONE
+    public String readOne(Object object) {
+        User user = (User) object;
+
+        String sql = "SELECT * FROM USUARIO WHERE CPF_USER = ?";
+        try (PreparedStatement ps = getCon().prepareStatement(sql)) {
+            ps.setString(1, user.getCpf());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user.setCpf(rs.getString("CPF_USER"));
+                user.setName(rs.getString("NOME_USER"));
+                user.setDataDeNascimento(rs.getDate("DT_NASCIMENTO_USER").toLocalDate());
+                user.setEmail(rs.getString("EMAIL_USER"));
+                user.setTelefone(rs.getString("TELEFONE_USER"));
+
+                return String.format(
+                   "CPF: %s%nNome: %s%nData de nascimento: %s%nEmail: %s%nTelefone: %s",
+                   user.getCpf(),
+                   user.getName(),
+                   user.getDataDeNascimento(),
+                   user.getEmail(),
+                   user.getTelefone()
+                );
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro de SQL: " + e.getMessage());
+        }
+        return null;
+    }
+
+    // READ ALL
+    public ArrayList<User> readAll() {
+        String sql = "SELECT * FROM USUARIO ORDER BY NOME_USER";
+        ArrayList<User> lista = new ArrayList<>();
+
+        try (PreparedStatement ps = getCon().prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                User user = new User();
+                user.setCpf(rs.getString("CPF_USER"));
+                user.setName(rs.getString("NOME_USER"));
+                user.setDataDeNascimento(rs.getDate("DT_NASCIMENTO_USER").toLocalDate());
+                user.setEmail(rs.getString("EMAIL_USER"));
+                user.setTelefone(rs.getString("TELEFONE_USER"));
+                lista.add(user);
+            }
+            return lista;
+
+        } catch (SQLException e) {
+            System.out.println("Erro de SQL: " + e.getMessage());
+            return null;
+        }
+    }
+}
