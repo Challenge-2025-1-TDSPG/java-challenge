@@ -20,7 +20,7 @@ public class UserDAO {
     // Create
     public String create(Object object){
         user =(User) object;
-        String sql = "INSERT INTO USUARIO (CPF_USER, NOME_USER, EMAIL_USER, DT_NASCIMENTO_USER, TELEFONE_USER) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user_account (CPF_USER, NAME_USER, EMAIL_USER, BIRTH_DATE, PHONE_USER) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps =getCon().prepareStatement(sql)){
             ps.setString(1, user.getCpf());
             ps.setString(2, user.getName());
@@ -41,7 +41,7 @@ public class UserDAO {
     // Update
     public String update(Object object){
         user = (User) object;
-        String sql = "UPDATE USUARIO SET NOME_USER=?, DT_NASCIMENTO_USER=?, EMAIL_USER=?, TELEFONE_USER=? WHERE CPF_USER=?";
+        String sql = "UPDATE user_account SET NAME_USER=?, BIRTH_DATE=?, EMAIL_USER=?, PHONE_USER=? WHERE CPF_USER=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, user.getName());
             ps.setDate(2, Date.valueOf(user.getDataDeNascimento()));
@@ -62,7 +62,7 @@ public class UserDAO {
     // DELETE
     public String delete(Object object) {
         user = (User) object;
-        String sql = "DELETE FROM USUARIO WHERE CPF_USER=?";
+        String sql = "DELETE FROM user_account WHERE CPF_USER=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, user.getCpf());
 
@@ -80,17 +80,17 @@ public class UserDAO {
     public String readOne(Object object) {
         User user = (User) object;
 
-        String sql = "SELECT * FROM USUARIO WHERE CPF_USER = ?";
+        String sql = "SELECT * FROM user_account WHERE CPF_USER = ?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, user.getCpf());
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
                 user.setCpf(rs.getString("CPF_USER"));
-                user.setName(rs.getString("NOME_USER"));
-                user.setDataDeNascimento(rs.getDate("DT_NASCIMENTO_USER").toLocalDate());
+                user.setName(rs.getString("NAME_USER"));
+                user.setDataDeNascimento(rs.getDate("BIRTH_USER").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
-                user.setTelefone(rs.getString("TELEFONE_USER"));
+                user.setTelefone(rs.getString("Phone_USER"));
 
                 return String.format(
                    "CPF: %s%nNome: %s%nData de nascimento: %s%nEmail: %s%nTelefone: %s",
@@ -110,7 +110,7 @@ public class UserDAO {
 
     // READ ALL
     public ArrayList<User> readAll() {
-        String sql = "SELECT * FROM USUARIO ORDER BY NOME_USER";
+        String sql = "SELECT * FROM user_account ORDER BY NAME_USER";
         ArrayList<User> lista = new ArrayList<>();
 
         try (PreparedStatement ps = getCon().prepareStatement(sql);
@@ -119,10 +119,10 @@ public class UserDAO {
             while (rs.next()) {
                 User user = new User();
                 user.setCpf(rs.getString("CPF_USER"));
-                user.setName(rs.getString("NOME_USER"));
-                user.setDataDeNascimento(rs.getDate("DT_NASCIMENTO_USER").toLocalDate());
+                user.setName(rs.getString("NAME_USER"));
+                user.setDataDeNascimento(rs.getDate("BIRTH_USER").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
-                user.setTelefone(rs.getString("TELEFONE_USER"));
+                user.setTelefone(rs.getString("Phone_USER"));
                 lista.add(user);
             }
             return lista;

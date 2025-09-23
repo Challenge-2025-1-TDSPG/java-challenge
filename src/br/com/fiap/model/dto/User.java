@@ -59,22 +59,40 @@ public class User {
     }
 
     public void setTelefone(String telefone) {
-        String telLimpo = telefone.replaceAll("\\D", "");
-        if (validarTelefone(telLimpo)) {
-            this.telefone = telLimpo;
-        } else {
-            throw new IllegalArgumentException("Telefone inválido. Use DDD + número (10 ou 11 dígitos).");
-        }
+        this.telefone = formatarTelefone(telefone);
     }
+
 
     public String getTelefone() {
         return telefone;
     }
 
     //metodo
-    public static boolean validarTelefone(String telefone) {
-        return telefone != null && (telefone.length() == 10 || telefone.length() == 11);
+    public static String formatarTelefone(String telefone) {
+        if (telefone == null) {
+            throw new IllegalArgumentException("Telefone não pode ser nulo.");
+        }
+
+        // remove tudo que não for número
+        String telLimpo = telefone.replaceAll("\\D", "");
+
+        if (telLimpo.length() == 11) {
+            // celular: (11) 98765-4321
+            return String.format("(%s) %s-%s",
+                    telLimpo.substring(0, 2),   // DDD
+                    telLimpo.substring(2, 7),   // prefixo 5 dígitos
+                    telLimpo.substring(7));     // sufixo 4 dígitos
+        } else if (telLimpo.length() == 10) {
+            // fixo: (11) 3456-7890
+            return String.format("(%s) %s-%s",
+                    telLimpo.substring(0, 2),   // DDD
+                    telLimpo.substring(2, 6),   // prefixo 4 dígitos
+                    telLimpo.substring(6));     // sufixo 4 dígitos
+        } else {
+            throw new IllegalArgumentException("Telefone inválido. Use DDD + número (10 ou 11 dígitos).");
+        }
     }
+
 
     public static boolean validarCpf(String cpf){
         int soma = 0,resto, numero;
