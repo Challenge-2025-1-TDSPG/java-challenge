@@ -21,12 +21,12 @@ public class ContactHCDAO {
     // CREATE
     public String create(Object object) {
         contact = (ContactHC) object;
-        String sql = "INSERT INTO CONTACTHC (TITLE, IN_PERSON, EMAIL, TEL, SCHEDULE) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO CONTACT_HC (TITLE_CONTACT, IN_PERSON_CONTACT, EMAIL_HC, PHONE_HC, SCHEDULE) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, contact.getTitle());
             ps.setString(2, contact.getInPerson());
             ps.setString(3, contact.getEmail());
-            ps.setString(4, contact.getTel());
+            ps.setString(4, contact.getPhoneHC());
             ps.setString(5, contact.getSchedule());
 
             if (ps.executeUpdate() > 0) {
@@ -42,11 +42,11 @@ public class ContactHCDAO {
     // UPDATE
     public String update(Object object) {
         contact = (ContactHC) object;
-        String sql = "UPDATE CONTACTHC SET IN_PERSON=?, EMAIL=?, TEL=?, SCHEDULE=? WHERE TITLE=?";
+        String sql = "UPDATE CONTACT_HC SET IN_PERSON_CONTACT=?, EMAIL_HC=?, PHONE_HC=?, SCHEDULE=? WHERE TITLE_CONTACT=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, contact.getInPerson());
             ps.setString(2, contact.getEmail());
-            ps.setString(3, contact.getTel());
+            ps.setString(3, contact.getPhoneHC());
             ps.setString(4, contact.getSchedule());
             ps.setString(5, contact.getTitle());
 
@@ -63,7 +63,7 @@ public class ContactHCDAO {
     // DELETE
     public String delete(Object object) {
         contact = (ContactHC) object;
-        String sql = "DELETE FROM CONTACTHC WHERE TITLE=?";
+        String sql = "DELETE FROM CONTACT_HC WHERE TITLE_CONTACT=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, contact.getTitle());
 
@@ -80,7 +80,7 @@ public class ContactHCDAO {
     // READ ONE
     public String readOne(Object object) {
         contact = (ContactHC) object;
-        String sql = "SELECT * FROM CONTACTHC WHERE TITLE=?";
+        String sql = "SELECT * FROM CONTACT_HC WHERE TITLE_CONTACT=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, contact.getTitle());
             ResultSet rs = ps.executeQuery();
@@ -89,7 +89,7 @@ public class ContactHCDAO {
                 contact.setTitle(rs.getString("TITLE"));
                 contact.setInPerson(rs.getString("IN_PERSON"));
                 contact.setEmail(rs.getString("EMAIL"));
-                contact.setTel(rs.getString("TEL"));
+                contact.setPhoneHC(rs.getString("TEL"));
                 contact.setSchedule(rs.getString("SCHEDULE"));
 
                 return String.format(
@@ -97,7 +97,7 @@ public class ContactHCDAO {
                    contact.getTitle(),
                    contact.getInPerson(),
                    contact.getEmail(),
-                   contact.getTel(),
+                   contact.getPhoneHC(),
                    contact.getSchedule()
                 );
             }
@@ -109,7 +109,7 @@ public class ContactHCDAO {
 
     // READ ALL
     public ArrayList<ContactHC> readAll() {
-        String sql = "SELECT * FROM CONTACTHC ORDER BY TITLE";
+        String sql = "SELECT * FROM CONTACT_HC ORDER BY TITLE_CONTACT";
         ArrayList<ContactHC> lista = new ArrayList<>();
 
         try (PreparedStatement ps = getCon().prepareStatement(sql);
@@ -119,7 +119,7 @@ public class ContactHCDAO {
                 contact.setTitle(rs.getString("TITLE"));
                 contact.setInPerson(rs.getString("IN_PERSON"));
                 contact.setEmail(rs.getString("EMAIL"));
-                contact.setTel(rs.getString("TEL"));
+                contact.setPhoneHC(rs.getString("TEL"));
                 contact.setSchedule(rs.getString("SCHEDULE"));
                 lista.add(contact);
             }

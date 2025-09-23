@@ -1,5 +1,7 @@
 package br.com.fiap.view;
 
+import br.com.fiap.Apagar.FeedbackView;
+
 import javax.swing.*;
 
 public class Main {

@@ -88,7 +88,7 @@ public class UserDAO {
             if (rs.next()) {
                 user.setCpf(rs.getString("CPF_USER"));
                 user.setName(rs.getString("NAME_USER"));
-                user.setDataDeNascimento(rs.getDate("BIRTH_USER").toLocalDate());
+                user.setDataDeNascimento(rs.getDate("BIRTH_DATE").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
                 user.setTelefone(rs.getString("Phone_USER"));
 
@@ -120,7 +120,7 @@ public class UserDAO {
                 User user = new User();
                 user.setCpf(rs.getString("CPF_USER"));
                 user.setName(rs.getString("NAME_USER"));
-                user.setDataDeNascimento(rs.getDate("BIRTH_USER").toLocalDate());
+                user.setDataDeNascimento(rs.getDate("BIRTH_DATE").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
                 user.setTelefone(rs.getString("Phone_USER"));
                 lista.add(user);

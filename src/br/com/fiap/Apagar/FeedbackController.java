@@ -1,8 +1,6 @@
-package br.com.fiap.controller;
+package br.com.fiap.Apagar;
 
 import br.com.fiap.model.dao.ConnectionFactory;
-import br.com.fiap.model.dao.FeedbackDAO;
-import br.com.fiap.model.dto.Feedback;
 
 import java.sql.Connection;
 import java.time.LocalDate;

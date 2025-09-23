@@ -18,14 +18,14 @@ public class LoginDAO {
         return con;
     }
 
-    // método de autenticação
+//     metodo de autenticação
     public boolean autenticar(Login login) {
-        String sql = "SELECT * FROM USUARIO WHERE CPF_USER = ? AND DT_NASCIMENTO_USER = ?";
+        String sql = "SELECT * FROM USER_ACCOUNT WHERE CPF_USER = ? AND BIRTH_DATE = ?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, login.getCpf());
             ps.setDate(2, java.sql.Date.valueOf(login.getPasswordDate()));
             ResultSet rs = ps.executeQuery();
-            return rs.next(); // se achou usuário válido → true
+            return rs.next();
         } catch (SQLException e) {
             System.out.println("Erro de SQL: " + e.getMessage());
             return false;

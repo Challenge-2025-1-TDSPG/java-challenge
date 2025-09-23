@@ -1,6 +1,4 @@
-package br.com.fiap.model.dao;
-
-import br.com.fiap.model.dto.Feedback;
+package br.com.fiap.Apagar;
 
 import java.sql.*;
 

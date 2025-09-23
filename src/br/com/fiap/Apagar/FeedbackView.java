@@ -1,6 +1,4 @@
-package br.com.fiap.view;
-
-import br.com.fiap.controller.FeedbackController;
+package br.com.fiap.Apagar;
 
 import javax.swing.*;
 import java.time.LocalDate;

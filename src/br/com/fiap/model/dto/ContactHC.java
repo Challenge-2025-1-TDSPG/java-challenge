@@ -1,7 +1,7 @@
 package br.com.fiap.model.dto;
 
-public class ContactHC {
-    private String title, inPerson, email, tel, schedule;
+public class ContactHC extends User {
+    private String title, inPerson, email, phoneHC, schedule;
 
     public ContactHC() {
     }
@@ -30,12 +30,12 @@ public class ContactHC {
         this.email = email;
     }
 
-    public String getTel() {
-        return tel;
+    public String getPhoneHC() {
+        return phoneHC;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setPhoneHC(String phoneHC) {
+        this.phoneHC = formatarTelefone(phoneHC);
     }
 
     public String getSchedule() {
@@ -49,7 +49,7 @@ public class ContactHC {
     public String toString() {
         return String.format(
            "Título: %s%nAtendimento Presencial: %s%nEmail: %s%nTelefone: %s%nHorário: %s%n",
-           title, inPerson, email, tel, schedule
+           title, inPerson, email, phoneHC, schedule
         );
     }
 }

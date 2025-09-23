@@ -78,13 +78,13 @@ public class User {
 
         if (telLimpo.length() == 11) {
             // celular: (11) 98765-4321
-            return String.format("(%s) %s-%s",
+            return String.format("(%s)%s-%s",
                     telLimpo.substring(0, 2),   // DDD
                     telLimpo.substring(2, 7),   // prefixo 5 dígitos
                     telLimpo.substring(7));     // sufixo 4 dígitos
         } else if (telLimpo.length() == 10) {
             // fixo: (11) 3456-7890
-            return String.format("(%s) %s-%s",
+            return String.format("(%s)%s-%s",
                     telLimpo.substring(0, 2),   // DDD
                     telLimpo.substring(2, 6),   // prefixo 4 dígitos
                     telLimpo.substring(6));     // sufixo 4 dígitos

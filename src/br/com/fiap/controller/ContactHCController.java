@@ -18,7 +18,7 @@ public class ContactHCController {
         contact.setTitle(title);
         contact.setInPerson(inPerson);
         contact.setEmail(email);
-        contact.setTel(tel);
+        contact.setPhoneHC(tel);
         contact.setSchedule(schedule);
 
         String resultado = dao.create(contact);
@@ -35,7 +35,7 @@ public class ContactHCController {
         contact.setTitle(title);
         contact.setInPerson(inPerson);
         contact.setEmail(email);
-        contact.setTel(tel);
+        contact.setPhoneHC(tel);
         contact.setSchedule(schedule);
 
         String resultado = dao.update(contact);
