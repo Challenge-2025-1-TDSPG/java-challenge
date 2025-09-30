@@ -8,12 +8,6 @@ public class Email {
     public Email() {
     }
 
-    public Email(String destinatario, String assunto, String corpo) {
-        this.destinatario = destinatario;
-        this.assunto = assunto;
-        this.corpo = corpo;
-    }
-
     public String getCorpo() {
         return corpo;
     }
