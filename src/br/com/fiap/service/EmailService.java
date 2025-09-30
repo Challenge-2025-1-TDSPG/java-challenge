@@ -10,7 +10,7 @@ import java.util.Properties;
 public class EmailService {
 
     private final String usuario = "lumahc.suporte@gmail.com";
-    private final String senha = "bwli zgdw otfq chaf"; // App Password do Gmail
+    private final String senha = "bwli zgdw otfq chaf";
 
     public void enviarEmail(Email email) throws MessagingException {
         String host = "smtp.gmail.com";
@@ -30,8 +30,7 @@ public class EmailService {
 
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress(usuario));
-        message.setRecipients(Message.RecipientType.TO,
-           InternetAddress.parse(email.getDestinatario()));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email.getDestinatario()));
         message.setSubject(email.getAssunto());
         message.setText(email.getCorpo());
 

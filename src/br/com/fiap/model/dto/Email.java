@@ -5,6 +5,9 @@ public class Email {
     private String assunto;
     private String corpo;
 
+    public Email() {
+    }
+
     public Email(String destinatario, String assunto, String corpo) {
         this.destinatario = destinatario;
         this.assunto = assunto;

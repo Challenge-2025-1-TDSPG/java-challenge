@@ -29,7 +29,6 @@ public class UsuarioView {
         int opcao;
         do {
             opcao = Integer.parseInt(JOptionPane.showInputDialog(menu));
-
             try {
                 switch (opcao) {
                     case 1 : { // CREATE
@@ -42,6 +41,7 @@ public class UsuarioView {
                         JOptionPane.showMessageDialog(null,
                            userController.createUser(cpf, nome, email, dataNascimento, telefone));
                         break;
+
                     }
                     case 2 : { // UPDATE
                         cpf = JOptionPane.showInputDialog("Digite o CPF do usuário a alterar:");
@@ -84,7 +84,6 @@ public class UsuarioView {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "Erro: " + e.getMessage());
             }
-
         } while (opcao != JOptionPane.CLOSED_OPTION && opcao != 0);
     }
 }

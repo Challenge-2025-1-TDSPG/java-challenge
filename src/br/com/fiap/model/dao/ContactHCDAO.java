@@ -42,13 +42,14 @@ public class ContactHCDAO {
     // UPDATE
     public String update(Object object) {
         contact = (ContactHC) object;
-        String sql = "UPDATE CONTACT_HC SET IN_PERSON_CONTACT=?, EMAIL_HC=?, PHONE_HC=?, SCHEDULE=? WHERE TITLE_CONTACT=?";
+        String sql = "UPDATE CONTACT_HC SET TITLE_CONTACT=?, IN_PERSON_CONTACT=?, EMAIL_HC=?, PHONE_HC=?, SCHEDULE=? WHERE ID_CONTACT_HC=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
-            ps.setString(1, contact.getInPerson());
-            ps.setString(2, contact.getEmail());
-            ps.setString(3, contact.getPhoneHC());
-            ps.setString(4, contact.getSchedule());
-            ps.setString(5, contact.getTitle());
+            ps.setString(1, contact.getTitle());
+            ps.setString(2, contact.getInPerson());
+            ps.setString(3, contact.getEmail());
+            ps.setString(4, contact.getPhoneHC());
+            ps.setString(5, contact.getSchedule());
+            ps.setInt(6, contact.getId());
 
             if (ps.executeUpdate() > 0) {
                 return "Contato atualizado com sucesso.";
@@ -63,9 +64,9 @@ public class ContactHCDAO {
     // DELETE
     public String delete(Object object) {
         contact = (ContactHC) object;
-        String sql = "DELETE FROM CONTACT_HC WHERE TITLE_CONTACT=?";
+        String sql = "DELETE FROM CONTACT_HC WHERE id_contact_hc=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
-            ps.setString(1, contact.getTitle());
+            ps.setInt(1, contact.getId());
 
             if (ps.executeUpdate() > 0) {
                 return "Contato excluído com sucesso.";
@@ -80,20 +81,21 @@ public class ContactHCDAO {
     // READ ONE
     public String readOne(Object object) {
         contact = (ContactHC) object;
-        String sql = "SELECT * FROM CONTACT_HC WHERE TITLE_CONTACT=?";
+        String sql = "SELECT * FROM CONTACT_HC WHERE ID_CONTACT_HC=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
-            ps.setString(1, contact.getTitle());
+            ps.setInt(1, contact.getId());
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                contact.setTitle(rs.getString("TITLE"));
-                contact.setInPerson(rs.getString("IN_PERSON"));
-                contact.setEmail(rs.getString("EMAIL"));
-                contact.setPhoneHC(rs.getString("TEL"));
+                contact.setTitle(rs.getString("TITLE_CONTACT"));
+                contact.setInPerson(rs.getString("IN_PERSON_CONTACT"));
+                contact.setEmail(rs.getString("EMAIL_HC"));
+                contact.setPhoneHC(rs.getString("PHONE_HC"));
                 contact.setSchedule(rs.getString("SCHEDULE"));
 
                 return String.format(
-                   "Título: %s%nAtendimento Presencial: %s%nEmail: %s%nTelefone: %s%nHorário: %s",
+                   "ID: %s%nTítulo: %s%nAtendimento Presencial: %s%nEmail: %s%nTelefone: %s%nHorário: %s",
+                   rs.getInt("ID_CONTACT_HC"),
                    contact.getTitle(),
                    contact.getInPerson(),
                    contact.getEmail(),
@@ -109,17 +111,18 @@ public class ContactHCDAO {
 
     // READ ALL
     public ArrayList<ContactHC> readAll() {
-        String sql = "SELECT * FROM CONTACT_HC ORDER BY TITLE_CONTACT";
+        String sql = "SELECT * FROM CONTACT_HC ORDER BY ID_CONTACT_HC";
         ArrayList<ContactHC> lista = new ArrayList<>();
 
         try (PreparedStatement ps = getCon().prepareStatement(sql);
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 ContactHC contact = new ContactHC();
-                contact.setTitle(rs.getString("TITLE"));
-                contact.setInPerson(rs.getString("IN_PERSON"));
-                contact.setEmail(rs.getString("EMAIL"));
-                contact.setPhoneHC(rs.getString("TEL"));
+                contact.setId(rs.getInt("ID_CONTACT_HC"));
+                contact.setTitle(rs.getString("TITLE_CONTACT"));
+                contact.setInPerson(rs.getString("IN_PERSON_CONTACT"));
+                contact.setEmail(rs.getString("EMAIL_HC"));
+                contact.setPhoneHC(rs.getString("PHONE_HC"));
                 contact.setSchedule(rs.getString("SCHEDULE"));
                 lista.add(contact);
             }

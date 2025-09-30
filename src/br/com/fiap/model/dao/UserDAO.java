@@ -20,12 +20,12 @@ public class UserDAO {
     // Create
     public String create(Object object){
         user =(User) object;
-        String sql = "INSERT INTO user_account (CPF_USER, NAME_USER, EMAIL_USER, BIRTH_DATE, PHONE_USER) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO user_account (cpf_user, name_user, email_user, birth_date, phone_user) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement ps =getCon().prepareStatement(sql)){
             ps.setString(1, user.getCpf());
             ps.setString(2, user.getName());
             ps.setString(3, user.getEmail());
-            ps.setDate(4, java.sql.Date.valueOf(user.getDataDeNascimento()));
+            ps.setDate(4, java.sql.Date.valueOf(user.getBirthDate()));
             ps.setString(5, user.getTelefone());
 
             if (ps.executeUpdate() > 0) {
@@ -44,7 +44,7 @@ public class UserDAO {
         String sql = "UPDATE user_account SET NAME_USER=?, BIRTH_DATE=?, EMAIL_USER=?, PHONE_USER=? WHERE CPF_USER=?";
         try (PreparedStatement ps = getCon().prepareStatement(sql)) {
             ps.setString(1, user.getName());
-            ps.setDate(2, Date.valueOf(user.getDataDeNascimento()));
+            ps.setDate(2, Date.valueOf(user.getBirthDate()));
             ps.setString(3, user.getEmail());
             ps.setString(4, user.getTelefone());
             ps.setString(5, user.getCpf());
@@ -88,7 +88,7 @@ public class UserDAO {
             if (rs.next()) {
                 user.setCpf(rs.getString("CPF_USER"));
                 user.setName(rs.getString("NAME_USER"));
-                user.setDataDeNascimento(rs.getDate("BIRTH_DATE").toLocalDate());
+                user.setBirthDate(rs.getDate("BIRTH_DATE").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
                 user.setTelefone(rs.getString("Phone_USER"));
 
@@ -96,7 +96,7 @@ public class UserDAO {
                    "CPF: %s%nNome: %s%nData de nascimento: %s%nEmail: %s%nTelefone: %s",
                    user.getCpf(),
                    user.getName(),
-                   user.getDataDeNascimento(),
+                   user.getBirthDate(),
                    user.getEmail(),
                    user.getTelefone()
                 );
@@ -120,7 +120,7 @@ public class UserDAO {
                 User user = new User();
                 user.setCpf(rs.getString("CPF_USER"));
                 user.setName(rs.getString("NAME_USER"));
-                user.setDataDeNascimento(rs.getDate("BIRTH_DATE").toLocalDate());
+                user.setBirthDate(rs.getDate("BIRTH_DATE").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
                 user.setTelefone(rs.getString("Phone_USER"));
                 lista.add(user);

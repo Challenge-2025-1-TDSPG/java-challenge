@@ -12,6 +12,7 @@ public class ContactHCView {
     public static void main(String[] args) {
         ContactHCController controller = new ContactHCController();
         String title, inPerson, email, tel, schedule, resultado;
+        int id;
         String[] escolha= {"create", "update", "delete", "readOne", "readAll"};
         int opcao;
         do {
@@ -27,20 +28,21 @@ public class ContactHCView {
                         JOptionPane.showMessageDialog(null, controller.create(title, inPerson, email, tel, schedule));
                         break;
                     case 1:// UPDATE
-                        title = JOptionPane.showInputDialog("Digite o nome da unidade (existente) para alterar:");
+                        id = Integer.parseInt(JOptionPane.showInputDialog("Digite o id da unidade(existente) para alterar:"));
+                        title = JOptionPane.showInputDialog("Digite o nome da unidade  para alterar:");
                         inPerson = JOptionPane.showInputDialog("Digite o novo LOCAL de atendimento presencial:");
                         email = JOptionPane.showInputDialog("Digite o novo Email:");
                         tel = JOptionPane.showInputDialog("Digite o novo Telefone:");
                         schedule = JOptionPane.showInputDialog("Digite o HORÁRIO de atendimento:");
-                        JOptionPane.showMessageDialog(null, controller.update(title, inPerson, email, tel, schedule));
+                        JOptionPane.showMessageDialog(null, controller.update(id ,title, inPerson, email, tel, schedule));
                         break;
                     case 2 :     // DELETE
-                        title = JOptionPane.showInputDialog("Digite o Título da unidade excluir:");
-                        JOptionPane.showMessageDialog(null, controller.delete(title));
+                        id = Integer.parseInt(JOptionPane.showInputDialog("Digite o id da unidade para excluir:"));
+                        JOptionPane.showMessageDialog(null, controller.delete(id));
                         break;
                     case 3 :// READ ONE
-                        title = JOptionPane.showInputDialog("Digite o Título da unidade a buscar:");
-                        resultado = controller.readOne(title);
+                        id = Integer.parseInt(JOptionPane.showInputDialog("Digite o Id da unidade a buscar:"));
+                        resultado = controller.readOne(id);
                         JOptionPane.showMessageDialog(null, Objects.requireNonNullElse(resultado, "Contato não encontrado."));
                         break;
 

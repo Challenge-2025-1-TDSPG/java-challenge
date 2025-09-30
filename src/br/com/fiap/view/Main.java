@@ -1,7 +1,5 @@
 package br.com.fiap.view;
 
-import br.com.fiap.Apagar.FeedbackView;
-
 import javax.swing.*;
 
 public class Main {
@@ -11,8 +9,7 @@ public class Main {
                 
                 1 - Gerenciar Usuários
                 2 - Gerenciar Contatos (HC)
-                3 - Gerenciar Feedbacks
-                4 - Fazer Login
+                3 - Fazer Login
                 0 - Sair
                 """;
 
@@ -24,8 +21,7 @@ public class Main {
                 switch (opcao) {
                     case 1 -> UsuarioView.main(null);
                     case 2 -> ContactHCView.main(null);
-                    case 3 -> FeedbackView.main(null);
-                    case 4 -> LoginView.main(null);
+                    case 3 -> LoginView.main(null);
                     case 0 -> JOptionPane.showMessageDialog(null, "Saindo do sistema...");
                     default -> JOptionPane.showMessageDialog(null, "Opção inválida!");
                 }

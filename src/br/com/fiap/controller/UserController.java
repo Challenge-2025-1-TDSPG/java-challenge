@@ -20,7 +20,7 @@ public class UserController {
         user.setCpf(cpf);
         user.setName(nome);
         user.setEmail(email);
-        user.setDataDeNascimento(dataNascimento);
+        user.setBirthDate(dataNascimento);
         user.setTelefone(telefone);
 
         resultado = userDao.create(user);
@@ -39,7 +39,7 @@ public class UserController {
         user.setCpf(cpf);
         user.setName(nome);
         user.setEmail(email);
-        user.setDataDeNascimento(dataNascimento);
+        user.setBirthDate(dataNascimento);
         user.setTelefone(telefone);
 
         resultado = userDao.update(user);

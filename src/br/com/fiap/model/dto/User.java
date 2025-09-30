@@ -8,7 +8,7 @@ public class User {
     private String cpf;
     private String name;
     private String email;
-    private LocalDate dataDeNascimento;
+    private LocalDate birthDate;
     private String telefone;
 
 
@@ -38,12 +38,12 @@ public class User {
         this.name = name;
     }
 
-    public LocalDate getDataDeNascimento() {
-        return dataDeNascimento;
+    public LocalDate getBirthDate() {
+        return birthDate;
     }
 
-    public void setDataDeNascimento(LocalDate dataDeNascimento) {
-        this.dataDeNascimento = dataDeNascimento;
+    public void setBirthDate(LocalDate birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getEmail() {
@@ -73,21 +73,19 @@ public class User {
             throw new IllegalArgumentException("Telefone não pode ser nulo.");
         }
 
-        // remove tudo que não for número
+
         String telLimpo = telefone.replaceAll("\\D", "");
 
         if (telLimpo.length() == 11) {
-            // celular: (11) 98765-4321
             return String.format("(%s)%s-%s",
-                    telLimpo.substring(0, 2),   // DDD
-                    telLimpo.substring(2, 7),   // prefixo 5 dígitos
-                    telLimpo.substring(7));     // sufixo 4 dígitos
+                    telLimpo.substring(0, 2),
+                    telLimpo.substring(2, 7),
+                    telLimpo.substring(7));
         } else if (telLimpo.length() == 10) {
-            // fixo: (11) 3456-7890
             return String.format("(%s)%s-%s",
-                    telLimpo.substring(0, 2),   // DDD
-                    telLimpo.substring(2, 6),   // prefixo 4 dígitos
-                    telLimpo.substring(6));     // sufixo 4 dígitos
+                    telLimpo.substring(0, 2),
+                    telLimpo.substring(2, 6),
+                    telLimpo.substring(6));
         } else {
             throw new IllegalArgumentException("Telefone inválido. Use DDD + número (10 ou 11 dígitos).");
         }
@@ -137,7 +135,7 @@ public class User {
         if (email.isEmpty()) {
             return true;
         }
-        String emailFerificado = "^[\\w.-]+@[\\w-]+\\.[a-zA-Z]{2,}$";
+        String emailFerificado = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
 
         return email.matches(emailFerificado);
     }
@@ -145,7 +143,7 @@ public class User {
     public String toString() {
         return String.format(
            "CPF: %s%nNome: %s%nEmail: %s%nData Nasc.: %s%nTelefone: %s%n",
-           cpf, name, email, dataDeNascimento, telefone
+           cpf, name, email, birthDate, telefone
         );
     }
 }

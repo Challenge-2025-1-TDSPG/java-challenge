@@ -2,8 +2,17 @@ package br.com.fiap.model.dto;
 
 public class ContactHC extends User {
     private String title, inPerson, email, phoneHC, schedule;
+    private int id;
 
     public ContactHC() {
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -27,7 +36,11 @@ public class ContactHC extends User {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if (validarEmail(email)) {
+            this.email = email;
+        } else {
+            throw new IllegalArgumentException("Email inválido: " + email);
+        }
     }
 
     public String getPhoneHC() {

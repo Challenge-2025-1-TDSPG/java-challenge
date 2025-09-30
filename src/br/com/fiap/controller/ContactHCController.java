@@ -27,11 +27,12 @@ public class ContactHCController {
     }
 
     // UPDATE
-    public String update(String title, String inPerson, String email, String tel, String schedule) {
+    public String update( int id, String title, String inPerson, String email, String tel, String schedule) {
         Connection con = ConnectionFactory.abrirConexao();
         ContactHCDAO dao = new ContactHCDAO(con);
 
         ContactHC contact = new ContactHC();
+        contact.setId(id);
         contact.setTitle(title);
         contact.setInPerson(inPerson);
         contact.setEmail(email);
@@ -44,12 +45,12 @@ public class ContactHCController {
     }
 
     // DELETE
-    public String delete(String title) {
+    public String delete(int id) {
         Connection con = ConnectionFactory.abrirConexao();
         ContactHCDAO dao = new ContactHCDAO(con);
 
         ContactHC contact = new ContactHC();
-        contact.setTitle(title);
+        contact.setId(id);
 
         String resultado = dao.delete(contact);
         ConnectionFactory.fecharConexao(con);
@@ -57,12 +58,12 @@ public class ContactHCController {
     }
 
     // READ ONE
-    public String readOne(String title) {
+    public String readOne(int id) {
         Connection con = ConnectionFactory.abrirConexao();
         ContactHCDAO dao = new ContactHCDAO(con);
 
         ContactHC contact = new ContactHC();
-        contact.setTitle(title);
+        contact.setId(id);
 
         String resultado = dao.readOne(contact);
         ConnectionFactory.fecharConexao(con);
