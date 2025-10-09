@@ -9,7 +9,7 @@ public class User {
     private String name;
     private String email;
     private LocalDate birthDate;
-    private String telefone;
+    private String phone;
 
 
     //construtores
@@ -58,13 +58,13 @@ public class User {
         }
     }
 
-    public void setTelefone(String telefone) {
-        this.telefone = formatarTelefone(telefone);
+    public void setPhone(String phone) {
+        this.phone = formatarTelefone(phone);
     }
 
 
-    public String getTelefone() {
-        return telefone;
+    public String getPhone() {
+        return phone;
     }
 
     //metodo
@@ -131,19 +131,18 @@ public class User {
         }
     }
 
-    public static boolean validarEmail(String email){
-        if (email.isEmpty()) {
-            return true;
+    public static boolean validarEmail(String email) {
+        if (email == null || email.isEmpty()) {
+            return false;
         }
-        String emailFerificado = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
-
-        return email.matches(emailFerificado);
+        String emailRegex = "^[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+        return email.matches(emailRegex);
     }
 
     public String toString() {
         return String.format(
            "CPF: %s%nNome: %s%nEmail: %s%nData Nasc.: %s%nTelefone: %s%n",
-           cpf, name, email, birthDate, telefone
+           cpf, name, email, birthDate, phone
         );
     }
 }

@@ -25,8 +25,8 @@ public class UserDAO {
             ps.setString(1, user.getCpf());
             ps.setString(2, user.getName());
             ps.setString(3, user.getEmail());
-            ps.setDate(4, java.sql.Date.valueOf(user.getBirthDate()));
-            ps.setString(5, user.getTelefone());
+            ps.setDate(4, Date.valueOf(user.getBirthDate()));
+            ps.setString(5, user.getPhone());
 
             if (ps.executeUpdate() > 0) {
                 return "Inserido com sucesso.";
@@ -46,7 +46,7 @@ public class UserDAO {
             ps.setString(1, user.getName());
             ps.setDate(2, Date.valueOf(user.getBirthDate()));
             ps.setString(3, user.getEmail());
-            ps.setString(4, user.getTelefone());
+            ps.setString(4, user.getPhone());
             ps.setString(5, user.getCpf());
 
             if (ps.executeUpdate() > 0) {
@@ -90,7 +90,7 @@ public class UserDAO {
                 user.setName(rs.getString("NAME_USER"));
                 user.setBirthDate(rs.getDate("BIRTH_DATE").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
-                user.setTelefone(rs.getString("Phone_USER"));
+                user.setPhone(rs.getString("Phone_USER"));
 
                 return String.format(
                    "CPF: %s%nNome: %s%nData de nascimento: %s%nEmail: %s%nTelefone: %s",
@@ -98,7 +98,7 @@ public class UserDAO {
                    user.getName(),
                    user.getBirthDate(),
                    user.getEmail(),
-                   user.getTelefone()
+                   user.getPhone()
                 );
             }
 
@@ -122,7 +122,7 @@ public class UserDAO {
                 user.setName(rs.getString("NAME_USER"));
                 user.setBirthDate(rs.getDate("BIRTH_DATE").toLocalDate());
                 user.setEmail(rs.getString("EMAIL_USER"));
-                user.setTelefone(rs.getString("Phone_USER"));
+                user.setPhone(rs.getString("Phone_USER"));
                 lista.add(user);
             }
             return lista;

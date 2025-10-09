@@ -21,7 +21,7 @@ public class UserController {
         user.setName(nome);
         user.setEmail(email);
         user.setBirthDate(dataNascimento);
-        user.setTelefone(telefone);
+        user.setPhone(telefone);
 
         resultado = userDao.create(user);
 
@@ -40,7 +40,7 @@ public class UserController {
         user.setName(nome);
         user.setEmail(email);
         user.setBirthDate(dataNascimento);
-        user.setTelefone(telefone);
+        user.setPhone(telefone);
 
         resultado = userDao.update(user);
 
