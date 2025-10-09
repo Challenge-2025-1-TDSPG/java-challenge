@@ -13,7 +13,7 @@ public class ContactHCView {
         ContactHCController controller = new ContactHCController();
         String title, inPerson, email, tel, schedule, resultado;
         int id;
-        String[] escolha= {"create", "update", "delete", "readOne", "readAll"};
+        String[] escolha= {"inserir", "alterar", "Apagar", "Listar um", "Listar todos"};
         int opcao;
         do {
             opcao = JOptionPane.showOptionDialog(null, "Escolha uma das opcões abaixo para manipular os contatos","Escolha", JOptionPane.DEFAULT_OPTION,JOptionPane.QUESTION_MESSAGE,null, escolha, escolha[0]);

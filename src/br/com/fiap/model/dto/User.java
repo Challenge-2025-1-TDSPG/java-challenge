@@ -22,10 +22,9 @@ public class User {
     }
 
     public void setCpf(String cpf) {
-        String cpfLimpo = cpf.replace(".", "").replace("-", "");
-        if (validarCpf(cpfLimpo)) {
-            this.cpf = cpfLimpo;
-        } else {
+        if (validarCpf(cpf)){
+            this.cpf = cpf;
+        }else {
             JOptionPane.showMessageDialog(null, "CPF inválido.");
         }
     }
@@ -92,44 +91,42 @@ public class User {
     }
 
 
-    public static boolean validarCpf(String cpf){
-        int soma = 0,resto, numero;
+    public static boolean validarCpf(String cpf) {
+        if (cpf == null) return false;
 
-        String dec1, dec2;
+        cpf = cpf.replaceAll("\\D", "");
+
+        if (cpf.length() != 11) return false;
+
+        if (cpf.matches("(\\d)\\1{10}")) return false;
+
         try {
-            if (cpf == null || (cpf.length() != 11 && cpf.length() != 14)) return false;
+            int soma = 0, resto;
 
-            for (int i =0 ; i<9; i++){
-                numero = Integer.parseInt(cpf.substring(i,i+1));
-                soma += numero * (10-i);
+            for (int i = 0; i < 9; i++) {
+                int numero = Character.getNumericValue(cpf.charAt(i));
+                soma += numero * (10 - i);
             }
             resto = soma % 11;
-            if (resto < 2){
-                dec1 ="0";
-            }else {
-                dec1 = String.valueOf(11- resto);
-            }
+            String dec1 = (resto < 2) ? "0" : String.valueOf(11 - resto);
+
 
             soma = 0;
-            for (int i =0 ; i<9; i++){
-                numero = Integer.parseInt(cpf.substring(i,i+1));
-                soma += numero * (11-i);
+            for (int i = 0; i < 10; i++) {
+                int numero = Character.getNumericValue(cpf.charAt(i));
+                soma += numero * (11 - i);
             }
-            soma += Integer.parseInt(dec1) * 2;
             resto = soma % 11;
-            if (resto < 2){
-                dec2="0";
-            }else {
-                dec2= String.valueOf(11-resto);
-            }
+            String dec2 = (resto < 2) ? "0" : String.valueOf(11 - resto);
 
-            //formato cpf
-            String cpfVericado = cpf.substring(0,9)+dec1+dec2;
-            return cpf.equals(cpfVericado);
-        } catch (NumberFormatException e) {
+            String cpfVerificado = cpf.substring(0, 9) + dec1 + dec2;
+            return cpf.equals(cpfVerificado);
+
+        } catch (Exception e) {
             return false;
         }
     }
+
 
     public static boolean validarEmail(String email) {
         if (email == null || email.isEmpty()) {
