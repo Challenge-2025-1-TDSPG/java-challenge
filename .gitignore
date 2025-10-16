@@ -44,3 +44,4 @@ nb-configuration.xml
 # TLS Certificates
 .certs/
 
+src\main\java\br\com\fiap\dao\ConnectionFactory.java
