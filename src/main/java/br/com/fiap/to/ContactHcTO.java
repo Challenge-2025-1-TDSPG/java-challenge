@@ -1,10 +1,22 @@
 package br.com.fiap.to;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"id", "cpf", "name", "birthDate", "phone"})
 public class ContactHcTO extends UserTO {
     private String title, inPerson, email, phoneHC, schedule;
     private Long idHC;
 
     public ContactHcTO() {
+    }
+
+    public ContactHcTO(String title, String inPerson, String email, String phoneHC, String schedule, Long idHC) {
+        this.title = title;
+        this.inPerson = inPerson;
+        this.email = email;
+        this.phoneHC = phoneHC;
+        this.schedule = schedule;
+        this.idHC = idHC;
     }
 
     public Long getIdHC() {

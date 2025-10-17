@@ -11,7 +11,7 @@ public class ContactHcDAO {
 
     public ArrayList<ContactHcTO> findAll() {
         ArrayList<ContactHcTO> lista = new ArrayList<>();
-        String sql = "SELECT * FROM contact_hc ORDER BY id_hc";
+        String sql = "SELECT * FROM contact_hc ORDER BY ID_CONTACT_HC";
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
@@ -19,12 +19,12 @@ public class ContactHcDAO {
             if (ps != null) {
                 while (rs.next()) {
                     ContactHcTO contact = new ContactHcTO();
-                    contact.setIdHC(rs.getLong("id_hc"));
-                    contact.setTitle(rs.getString("title"));
-                    contact.setInPerson(rs.getString("in_person"));
-                    contact.setEmail(rs.getString("email"));
-                    contact.setPhoneHC(rs.getString("phone_hc"));
-                    contact.setSchedule(rs.getString("schedule"));
+                    contact.setIdHC(rs.getLong("ID_CONTACT_HC"));
+                    contact.setTitle(rs.getString("TITLE_CONTACT"));
+                    contact.setInPerson(rs.getString("IN_PERSON_CONTACT"));
+                    contact.setEmail(rs.getString("EMAIL_HC"));
+                    contact.setPhoneHC(rs.getString("PHONE_HC"));
+                    contact.setSchedule(rs.getString("SCHEDULE"));
                     lista.add(contact);
                 }
             } else {
@@ -41,7 +41,7 @@ public class ContactHcDAO {
 
     public ContactHcTO findById(Long id) {
         ContactHcTO contact = null;
-        String sql = "SELECT * FROM contact_hc WHERE id_hc = ?";
+        String sql = "SELECT * FROM contact_hc WHERE ID_CONTACT_HC = ?";
 
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id);
@@ -49,12 +49,12 @@ public class ContactHcDAO {
 
             if (rs.next()) {
                 contact = new ContactHcTO();
-                contact.setIdHC(rs.getLong("id_hc"));
-                contact.setTitle(rs.getString("title"));
-                contact.setInPerson(rs.getString("in_person"));
-                contact.setEmail(rs.getString("email"));
-                contact.setPhoneHC(rs.getString("phone_hc"));
-                contact.setSchedule(rs.getString("schedule"));
+                contact.setIdHC(rs.getLong("ID_CONTACT_HC"));
+                contact.setTitle(rs.getString("TITLE_CONTACT"));
+                contact.setInPerson(rs.getString("IN_PERSON_CONTACT"));
+                contact.setEmail(rs.getString("EMAIL_HC"));
+                contact.setPhoneHC(rs.getString("PHONE_HC"));
+                contact.setSchedule(rs.getString("SCHEDULE"));
             }
 
         } catch (SQLException e) {
@@ -67,9 +67,9 @@ public class ContactHcDAO {
     }
 
     public ContactHcTO save(ContactHcTO contact) {
-        String sql = "INSERT INTO contact_hc (title, in_person, email, phone_hc, schedule) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO contact_hc ( TITLE_CONTACT, IN_PERSON_CONTACT, EMAIL_HC, PHONE_HC, SCHEDULE) VALUES (?, ?, ?, ?, ?)";
 
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql, new String[]{"id_hc"})) {
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, contact.getTitle());
             ps.setString(2, contact.getInPerson());
             ps.setString(3, contact.getEmail());
@@ -77,11 +77,9 @@ public class ContactHcDAO {
             ps.setString(5, contact.getSchedule());
 
             if (ps.executeUpdate() > 0) {
-                ResultSet rs = ps.getGeneratedKeys();
-                if (rs.next()) {
-                    contact.setIdHC(rs.getLong(1));
-                }
                 return contact;
+            } else {
+                return null;
             }
 
         } catch (SQLException e) {
@@ -94,17 +92,15 @@ public class ContactHcDAO {
     }
 
     public Boolean delete(Long id) {
-        String sql = "DELETE FROM contact_hc WHERE id_hc = ?";
-
+        String sql = "DELETE FROM contact_hc WHERE ID_CONTACT_HC = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id);
             return ps.executeUpdate() > 0;
-        } catch (SQLException e) {
-            System.out.println("Erro ao excluir: " + e.getMessage());
-        } finally {
+        }  catch (SQLException e) {
+            System.out.println("Erro ao Excluir: " + e.getMessage());
+        }finally {
             ConnectionFactory.closeConnection();
         }
-
         return false;
     }
 }

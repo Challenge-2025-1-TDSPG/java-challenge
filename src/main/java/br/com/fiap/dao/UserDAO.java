@@ -99,28 +99,4 @@ public class UserDAO {
         }
         return false;
     }
-
-//    // Update
-//    public String update(Object object){
-//        userTO = (UserTO) object;
-//        String sql = "UPDATE user_account SET NAME_USER=?, BIRTH_DATE=?, EMAIL_USER=?, PHONE_USER=? WHERE CPF_USER=?";
-//        try (PreparedStatement ps = getCon().prepareStatement(sql)) {
-//            ps.setString(1, userTO.getName());
-//            ps.setDate(2, Date.valueOf(userTO.getBirthDate()));
-//            ps.setString(3, userTO.getEmail());
-//            ps.setString(4, userTO.getPhone());
-//            ps.setString(5, userTO.getCpf());
-//
-//            if (ps.executeUpdate() > 0) {
-//                return "Alterado com sucesso.";
-//            } else {
-//                return "Erro ao alterar";
-//            }
-//        } catch (SQLException e){
-//            return "Erro de SQL: " + e.getMessage();
-//        }
-//    }
-//
-//    // DELETE
-//
 }
