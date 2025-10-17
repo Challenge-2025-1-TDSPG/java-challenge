@@ -22,7 +22,7 @@ public class ContactHcDAO {
                     contact.setIdHC(rs.getLong("ID_CONTACT_HC"));
                     contact.setTitle(rs.getString("TITLE_CONTACT"));
                     contact.setInPerson(rs.getString("IN_PERSON_CONTACT"));
-                    contact.setEmail(rs.getString("EMAIL_HC"));
+                    contact.setEmailhc( rs.getString("EMAIL_HC"));
                     contact.setPhoneHC(rs.getString("PHONE_HC"));
                     contact.setSchedule(rs.getString("SCHEDULE"));
                     lista.add(contact);
@@ -52,7 +52,7 @@ public class ContactHcDAO {
                 contact.setIdHC(rs.getLong("ID_CONTACT_HC"));
                 contact.setTitle(rs.getString("TITLE_CONTACT"));
                 contact.setInPerson(rs.getString("IN_PERSON_CONTACT"));
-                contact.setEmail(rs.getString("EMAIL_HC"));
+                contact.setEmailhc(rs.getString("EMAIL_HC"));
                 contact.setPhoneHC(rs.getString("PHONE_HC"));
                 contact.setSchedule(rs.getString("SCHEDULE"));
             }
@@ -72,7 +72,7 @@ public class ContactHcDAO {
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setString(1, contact.getTitle());
             ps.setString(2, contact.getInPerson());
-            ps.setString(3, contact.getEmail());
+            ps.setString(3, contact.getEmailhc());
             ps.setString(4, contact.getPhoneHC());
             ps.setString(5, contact.getSchedule());
 

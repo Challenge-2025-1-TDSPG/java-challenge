@@ -2,23 +2,22 @@ package br.com.fiap.to;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties({"id", "cpf", "name", "birthDate", "phone"})
+@JsonIgnoreProperties({"id", "cpf", "name", "birthDate", "phone","email"})
 public class ContactHcTO extends UserTO {
-    private String title, inPerson, email, phoneHC, schedule;
-    private Long idHC;
+    //atributos
 
+    private Long idHC;
+    private String title;
+    private String inPerson;
+    private String emailhc;
+    private String phoneHC;
+    private String schedule;
+
+    //construtores
     public ContactHcTO() {
     }
 
-    public ContactHcTO(String title, String inPerson, String email, String phoneHC, String schedule, Long idHC) {
-        this.title = title;
-        this.inPerson = inPerson;
-        this.email = email;
-        this.phoneHC = phoneHC;
-        this.schedule = schedule;
-        this.idHC = idHC;
-    }
-
+    //setter/getter
     public Long getIdHC() {
         return idHC;
     }
@@ -43,13 +42,13 @@ public class ContactHcTO extends UserTO {
         this.inPerson = inPerson;
     }
 
-    public String getEmail() {
-        return email;
+    public String getEmailhc() {
+        return emailhc;
     }
 
-    public void setEmail(String email) {
+    public void setEmailhc(String email) {
         if (validarEmail(email)) {
-            this.email = email;
+            this.emailhc = email;
         } else {
             throw new IllegalArgumentException("Email inválido: " + email);
         }
@@ -60,7 +59,7 @@ public class ContactHcTO extends UserTO {
     }
 
     public void setPhoneHC(String phoneHC) {
-        this.phoneHC = formatarTelefone(phoneHC);
+        this.phoneHC = phoneHC;
     }
 
     public String getSchedule() {
@@ -74,7 +73,7 @@ public class ContactHcTO extends UserTO {
     public String toString() {
         return String.format(
            "Título: %s%nAtendimento Presencial: %s%nEmail: %s%nTelefone: %s%nHorário: %s%n",
-           title, inPerson, email, phoneHC, schedule
+           title, inPerson, emailhc, phoneHC, schedule
         );
     }
 }
