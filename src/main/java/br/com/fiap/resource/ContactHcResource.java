@@ -8,7 +8,7 @@ import jakarta.ws.rs.core.Response;
 
 import java.util.ArrayList;
 
-@Path("/contacthc")
+@Path("/contatoHC")
 public class ContactHcResource {
     private ContactHcBO contactBO = new ContactHcBO();
 
