@@ -1,0 +1,84 @@
+package br.com.fiap.to;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+public class EmailReminderTO {
+    // Atributos
+    private Long idReminder;
+    private Long userId;
+    private LocalDate dateReminder;
+    private LocalTime timeReminder;
+    private String descriptionReminder;
+
+    private String destinatario;
+    private String assunto;
+    private String corpo;
+
+    //getter e setter
+
+
+    public Long getIdReminder() {
+        return idReminder;
+    }
+
+    public void setIdReminder(Long idReminder) {
+        this.idReminder = idReminder;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public LocalDate getDateReminder() {
+        return dateReminder;
+    }
+
+    public void setDateReminder(LocalDate dateReminder) {
+        this.dateReminder = dateReminder;
+    }
+
+    public LocalTime getTimeReminder() {
+        return timeReminder;
+    }
+
+    public void setTimeReminder(LocalTime timeReminder) {
+        this.timeReminder = timeReminder;
+    }
+
+    public String getDescriptionReminder() {
+        return descriptionReminder;
+    }
+
+    public void setDescriptionReminder(String descriptionReminder) {
+        this.descriptionReminder = descriptionReminder;
+    }
+
+    public String getDestinatario() {
+        return destinatario;
+    }
+
+    public void setDestinatario(String destinatario) {
+        this.destinatario = destinatario;
+    }
+
+    public String getAssunto() {
+        return assunto;
+    }
+
+    public void setAssunto(String assunto) {
+        this.assunto = assunto;
+    }
+
+    public String getCorpo() {
+        return corpo;
+    }
+
+    public void setCorpo(String corpo) {
+        this.corpo = corpo;
+    }
+}
