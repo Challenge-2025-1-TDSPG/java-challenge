@@ -2,6 +2,8 @@ package br.com.fiap.resource;
 
 import br.com.fiap.bo.ContactHcBO;
 import br.com.fiap.to.ContactHcTO;
+import br.com.fiap.to.ReminderTO;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -72,6 +74,22 @@ public class ContactHcResource {
             response = Response.status(404);
         }
 
+        return response.build();
+    }
+
+    @PUT
+    @Path("/{codigo}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response update(@Valid ContactHcTO contactHc, @PathParam("codigo") Long codigo){
+        contactHc.setIdHC(codigo);
+        ContactHcTO resultado = contactBO.update(contactHc);
+        Response.ResponseBuilder response = null;
+        if (resultado != null) {
+            response = Response.created(null); // 201 created
+        } else {
+            response = Response.status(400); // 400 Bad Request
+        }
+        response.entity(resultado);
         return response.build();
     }
 }
