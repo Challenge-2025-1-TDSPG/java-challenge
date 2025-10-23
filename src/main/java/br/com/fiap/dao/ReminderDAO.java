@@ -1,6 +1,7 @@
 package br.com.fiap.dao;
 
 import br.com.fiap.to.ReminderTO;
+import br.com.fiap.to.UserTO;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.*;
@@ -101,27 +102,26 @@ public class ReminderDAO {
         return false;
     }
 
-    public List<LocalDate> findDates(LocalDate date) {
-        List<LocalDate> datas = new ArrayList<>();
-        String sql = "SELECT reminder_date FROM reminder WHERE reminder_date BETWEEN ? AND ?";
+    public ReminderTO update (ReminderTO reminder) {
+        String sql = "update REMINDER set user_account_id_user=?, reminder_date=?, reminder_time=?, description=? where id_reminder=?";
+        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
+            ps.setLong(1, reminder.getUserId());
+            ps.setDate(2, Date.valueOf(reminder.getDateReminder()));
+            ps.setString(3, reminder.getTimeReminder().toString());
+            ps.setString(4, reminder.getDescriptionReminder());
+            ps.setLong(5, (reminder.getIdReminder()));
 
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(date));                     // data inicial
-            ps.setDate(2, Date.valueOf(date.plusDays(7)));         // data final (+7 dias)
-
-            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
-                datas.add(rs.getDate("reminder_date").toLocalDate());       // converte de SQL pra LocalDate
+            if (ps.executeUpdate() > 0) {
+                return reminder;
+            } else {
+                return null;
             }
-
         } catch (SQLException e) {
-            System.out.println("Erro ao buscar datas: " + e.getMessage());
+            System.out.println("Erro ao atualizar: + e.getMessage()");
         } finally {
             ConnectionFactory.closeConnection();
         }
-
-        return datas;
+        return null;
     }
 
     public List<ReminderTO> findReminders() {
