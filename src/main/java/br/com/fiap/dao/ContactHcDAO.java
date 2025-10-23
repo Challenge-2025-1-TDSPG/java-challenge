@@ -107,7 +107,7 @@ public class ContactHcDAO {
     }
 
     public ContactHcTO update (ContactHcTO contact ) {
-        String sql = "update contact_hc set TITLE_CONTACT=?, IN_PERSON_CONTACT=?, EMAIL_HC=?, PHONE_HC=?, SCHEDULE=? where id_reminder=?";
+        String sql = "update contact_hc set TITLE_CONTACT=?, IN_PERSON_CONTACT=?, EMAIL_HC=?, PHONE_HC=?, SCHEDULE=? where ID_CONTACT_HC=?";
         try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
             ps.setString(1, contact.getTitle());
             ps.setString(2, contact.getInPerson());
