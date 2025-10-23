@@ -33,4 +33,10 @@ public class UserBO {
         userDAO = new UserDAO();
         return  userDAO.delete(id);
     }
+
+    public UserTO update(UserTO user){
+        userDAO = new UserDAO();
+        return userDAO.update(user);
+    }
+
 }

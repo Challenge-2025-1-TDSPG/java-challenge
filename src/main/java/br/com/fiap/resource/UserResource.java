@@ -2,6 +2,7 @@ package br.com.fiap.resource;
 
 import br.com.fiap.bo.UserBO;
 import br.com.fiap.to.UserTO;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -65,6 +66,22 @@ public class UserResource {
         } else {
             response = Response.status(404); // 404 Not Found
         }
+        return response.build();
+    }
+
+    @PUT
+    @Path("/{codigo}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response update(@Valid UserTO user, @PathParam("codigo") Long codigo){
+        user.setId(codigo);
+        UserTO resultado = userBO.update(user);
+        Response.ResponseBuilder response = null;
+        if (resultado != null) {
+            response = Response.created(null); // 201 created
+        } else {
+            response = Response.status(400); // 400 Bad Request
+        }
+        response.entity(resultado);
         return response.build();
     }
 }

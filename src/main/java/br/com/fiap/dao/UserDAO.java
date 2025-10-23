@@ -104,4 +104,26 @@ public class UserDAO {
         return false;
     }
 
+    public UserTO update (UserTO user) {
+        String sql = "update USER_ACCOUNT set cpf_user=?, name_user=?, email_user=?, birth_date=?, phone_user=? where id_user=?";
+        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
+            ps.setString(1, user.getCpf());
+            ps.setString(2, user.getName());
+            ps.setString(3, user.getEmail());
+            ps.setDate(4, Date.valueOf(user.getBirthDate()));
+            ps.setString(5, user.getPhone());
+            ps.setLong(6, (user.getId()));
+
+            if (ps.executeUpdate() > 0) {
+                return user;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar: + e.getMessage()");
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        return null;
+    }
 }
