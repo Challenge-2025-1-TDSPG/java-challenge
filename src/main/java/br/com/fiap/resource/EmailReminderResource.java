@@ -10,12 +10,12 @@ import java.util.ArrayList;
 
 @Path("/EmailReminder")
 public class EmailReminderResource {
-    private EmailReminderBO EmailReminder = new EmailReminderBO();
+    private EmailReminderBO emailReminderBO = new EmailReminderBO();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        ArrayList<EmailReminderTO> resultado = EmailReminder.findAll();
+        ArrayList<EmailReminderTO> resultado = emailReminderBO.findAll();
         Response.ResponseBuilder response = null;
 
         if (resultado != null) {
@@ -32,7 +32,7 @@ public class EmailReminderResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
-        EmailReminderTO resultado = EmailReminder.findByCodigo(id);
+        EmailReminderTO resultado = emailReminderBO.findByCodigo(id);
         Response.ResponseBuilder response = null;
 
         if (resultado != null) {
@@ -48,7 +48,7 @@ public class EmailReminderResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response save(EmailReminderTO emailReminder) {
-        EmailReminderTO resultado = EmailReminder.save(emailReminder);
+        EmailReminderTO resultado = emailReminderBO.save(emailReminder);
         Response.ResponseBuilder response = null;
 
         if (resultado != null) {
@@ -66,7 +66,7 @@ public class EmailReminderResource {
     public Response delete(@PathParam("id") Long id) {
         Response.ResponseBuilder response = null;
 
-        if (EmailReminder.delete(id)) {
+        if (emailReminderBO.delete(id)) {
             response = Response.status(204);
         } else {
             response = Response.status(404);

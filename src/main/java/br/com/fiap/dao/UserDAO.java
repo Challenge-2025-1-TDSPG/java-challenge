@@ -88,15 +88,20 @@ public class UserDAO {
     }
 
     public Boolean delete(Long id) {
+        EmailReminderDAO reminderDAO = new EmailReminderDAO();
+
+        reminderDAO.delete(id);
+
         String sql = "DELETE FROM user_account WHERE id_user=?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id);
             return ps.executeUpdate() > 0;
-        }  catch (SQLException e) {
+        } catch (SQLException e) {
             System.out.println("Erro ao Excluir: " + e.getMessage());
-        }finally {
+        } finally {
             ConnectionFactory.closeConnection();
         }
         return false;
     }
+
 }

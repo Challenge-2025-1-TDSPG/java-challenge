@@ -1,8 +1,10 @@
 package br.com.fiap.to;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
-
+@JsonIgnoreProperties({"destinatario", "assunto", "corpo"})
 public class EmailReminderTO {
     // Atributos
     private Long idReminder;
@@ -15,9 +17,11 @@ public class EmailReminderTO {
     private String assunto;
     private String corpo;
 
+    public EmailReminderTO() {
+    }
+
+
     //getter e setter
-
-
     public Long getIdReminder() {
         return idReminder;
     }

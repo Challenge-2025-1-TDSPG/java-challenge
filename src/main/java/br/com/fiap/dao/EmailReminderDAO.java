@@ -1,10 +1,15 @@
 package br.com.fiap.dao;
 
 import br.com.fiap.to.EmailReminderTO;
+import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
+@ApplicationScoped
 public class EmailReminderDAO {
 
     public ArrayList<EmailReminderTO> findAll() {
@@ -18,8 +23,9 @@ public class EmailReminderDAO {
                     reminder.setIdReminder(rs.getLong("id_reminder"));
                     reminder.setUserId(rs.getLong("user_account_id_user"));
                     reminder.setDateReminder(rs.getDate("reminder_date").toLocalDate());
-                    reminder.setTimeReminder(rs.getTime("reminder_time").toLocalTime());
+                    reminder.setTimeReminder(LocalTime.parse(rs.getString("reminder_time")));
                     reminder.setDescriptionReminder(rs.getString("description"));
+
 
                     reminders.add(reminder);
                 }
@@ -58,27 +64,32 @@ public class EmailReminderDAO {
     }
 
     public EmailReminderTO save(EmailReminderTO reminder) {
-        String sql = "INSERT INTO REMINDER (reminder_date, reminder_time, description) VALUES (?, ?, ?)";
-        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
-            ps.setDate(1, Date.valueOf(reminder.getDateReminder()));
-            ps.setTime(2, Time.valueOf(reminder.getTimeReminder()));
-            ps.setString(3, reminder.getDescriptionReminder());
+        String sql = "INSERT INTO REMINDER (user_account_id_user, reminder_date, reminder_time, description) " +
+           "VALUES (?, ?, ?, ?)";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql, new String[]{"id_reminder"})) {
+
+            ps.setLong(1, reminder.getUserId());
+            ps.setDate(2, Date.valueOf(reminder.getDateReminder()));
+            ps.setString(3, reminder.getTimeReminder().toString());
+            ps.setString(4, reminder.getDescriptionReminder());
 
             if (ps.executeUpdate() > 0) {
                 return reminder;
             } else {
                 return null;
             }
+
         } catch (SQLException e) {
             System.out.println("Erro ao Salvar: " + e.getMessage());
-        }finally {
+        } finally {
             ConnectionFactory.closeConnection();
         }
         return null;
     }
 
     public Boolean delete(Long id) {
-        String sql = "DELETE FROM reminder WHERE id_reminder = ?";
+        String sql = "DELETE FROM reminder WHERE user_account_id_user = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id);
             return ps.executeUpdate() > 0;
@@ -89,4 +100,75 @@ public class EmailReminderDAO {
         }
         return false;
     }
+
+    public List<LocalDate> findDates(LocalDate date) {
+        List<LocalDate> datas = new ArrayList<>();
+        String sql = "SELECT reminder_date FROM reminder WHERE reminder_date BETWEEN ? AND ?";
+
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(date));                     // data inicial
+            ps.setDate(2, Date.valueOf(date.plusDays(7)));         // data final (+7 dias)
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                datas.add(rs.getDate("reminder_date").toLocalDate());       // converte de SQL pra LocalDate
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar datas: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+
+        return datas;
+    }
+
+    public List<EmailReminderTO> findReminders7DaysAhead() {
+        List<EmailReminderTO> reminders = new ArrayList<>();
+
+        String sql = """
+            SELECT 
+                u.email_user,
+                r.id_reminder,
+                r.user_account_id_user,
+                r.reminder_date,
+                r.reminder_time,
+                r.description
+            FROM reminder r
+            JOIN user_account u ON u.id_user = r.user_account_id_user
+            WHERE r.reminder_date BETWEEN ? AND ?
+        """;
+
+        LocalDate today = LocalDate.now();
+        LocalDate sevenDaysAhead = today.plusDays(7);
+
+        try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
+            ps.setDate(1, Date.valueOf(today));
+            ps.setDate(2, Date.valueOf(sevenDaysAhead));
+
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                EmailReminderTO reminder = new EmailReminderTO();
+                reminder.setDestinatario(rs.getString("email_user"));
+                reminder.setIdReminder(rs.getLong("id_reminder"));
+                reminder.setUserId(rs.getLong("user_account_id_user"));
+                reminder.setDateReminder(rs.getDate("reminder_date").toLocalDate());
+                String timeStr = rs.getString("reminder_time");
+                reminder.setTimeReminder(timeStr != null ? LocalTime.parse(timeStr) : null);
+                reminder.setDescriptionReminder(rs.getString("description"));
+                reminders.add(reminder);
+            }
+
+        } catch (SQLException e) {
+            System.out.println("Erro ao buscar lembretes: " + e.getMessage());
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+
+        return reminders;
+    }
+
+
 }

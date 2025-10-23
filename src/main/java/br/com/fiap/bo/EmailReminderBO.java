@@ -4,11 +4,20 @@ package br.com.fiap.bo;
 import br.com.fiap.dao.EmailReminderDAO;
 import br.com.fiap.service.EmailService;
 import br.com.fiap.to.EmailReminderTO;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
+import io.quarkus.scheduler.Scheduled;
 
+
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.List;
 
+@ApplicationScoped
 public class EmailReminderBO {
+    @Inject
     private final EmailService service = new EmailService();
+    @Inject
     private EmailReminderDAO reminderEmail;
 
     public ArrayList<EmailReminderTO> findAll() {
@@ -33,29 +42,43 @@ public class EmailReminderBO {
         return  reminderEmail.delete(id);
     }
 
+    @Scheduled(every = "24h")
+    public void sendReminders() {
+        List<EmailReminderTO> reminders = reminderEmail.findReminders7DaysAhead();
 
-    public String enviar(String destinatario) {
-        try {
-            EmailReminderTO email= new EmailReminderTO();
+        if (reminders.isEmpty()) {
+            System.out.println("Nenhum lembrete dentro dos próximos 7 dias.");
+            return;
+        }
 
+        for (EmailReminderTO reminder : reminders) {
+            EmailReminderTO email = new EmailReminderTO();
+            email.setDestinatario(reminder.getDestinatario());
             email.setAssunto("LumaHC | Lembrete da sua consulta médica");
-            email.setCorpo("""
+
+            String corpo = String.format("""
                 Olá, este é um lembrete da sua consulta agendada.
 
-                📅 Data: 25/09/2025
-                ⏰ Horário: 14h30
+                📅 Data: %s
+                ⏰ Horário: %s
                 🏥 Local: Hospital das Clínicas - Unidade IMREA VILA MARIANA
 
                 Caso precise reagendar, entre em contato com nossa equipe.
                 Atenciosamente,
                 Equipe LumaHC
-                """);
-            email.setDestinatario(destinatario);
+                """,
+               reminder.getDateReminder().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+               reminder.getTimeReminder().format(DateTimeFormatter.ofPattern("HH:mm"))
+            );
 
-            service.enviarEmail(email);
-            return "E-mail enviado com sucesso!";
-        } catch (Exception e) {
-            return "Erro ao enviar e-mail: " + e.getMessage();
+            email.setCorpo(corpo);
+
+            try {
+                service.enviarEmail(email);
+            } catch (Exception e) {
+                System.out.println("Erro ao enviar e-mail para " + reminder.getDestinatario() + ": " + e.getMessage());
+            }
         }
     }
+
 }
