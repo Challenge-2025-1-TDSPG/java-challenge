@@ -1,7 +1,7 @@
 package br.com.fiap.resource;
 
-import br.com.fiap.bo.EmailReminderBO;
-import br.com.fiap.to.EmailReminderTO;
+import br.com.fiap.bo.ReminderBO;
+import br.com.fiap.to.ReminderTO;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
@@ -9,13 +9,13 @@ import jakarta.ws.rs.core.Response;
 import java.util.ArrayList;
 
 @Path("/EmailReminder")
-public class EmailReminderResource {
-    private EmailReminderBO emailReminderBO = new EmailReminderBO();
+public class ReminderResource {
+    private ReminderBO reminderBO = new ReminderBO();
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response findAll() {
-        ArrayList<EmailReminderTO> resultado = emailReminderBO.findAll();
+        ArrayList<ReminderTO> resultado = reminderBO.findAll();
         Response.ResponseBuilder response = null;
 
         if (resultado != null) {
@@ -32,7 +32,7 @@ public class EmailReminderResource {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
-        EmailReminderTO resultado = emailReminderBO.findByCodigo(id);
+        ReminderTO resultado = reminderBO.findByCodigo(id);
         Response.ResponseBuilder response = null;
 
         if (resultado != null) {
@@ -47,8 +47,8 @@ public class EmailReminderResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response save(EmailReminderTO emailReminder) {
-        EmailReminderTO resultado = emailReminderBO.save(emailReminder);
+    public Response save(ReminderTO emailReminder) {
+        ReminderTO resultado = reminderBO.save(emailReminder);
         Response.ResponseBuilder response = null;
 
         if (resultado != null) {
@@ -66,7 +66,7 @@ public class EmailReminderResource {
     public Response delete(@PathParam("id") Long id) {
         Response.ResponseBuilder response = null;
 
-        if (emailReminderBO.delete(id)) {
+        if (reminderBO.delete(id)) {
             response = Response.status(204);
         } else {
             response = Response.status(404);

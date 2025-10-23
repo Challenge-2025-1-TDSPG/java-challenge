@@ -88,7 +88,7 @@ public class UserDAO {
     }
 
     public Boolean delete(Long id) {
-        EmailReminderDAO reminderDAO = new EmailReminderDAO();
+        ReminderDAO reminderDAO = new ReminderDAO();
 
         reminderDAO.delete(id);
 

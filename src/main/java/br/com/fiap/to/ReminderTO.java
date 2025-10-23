@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 import java.time.LocalTime;
 @JsonIgnoreProperties({"destinatario", "assunto", "corpo"})
-public class EmailReminderTO {
+public class ReminderTO {
+
     // Atributos
     private Long idReminder;
     private Long userId;
@@ -17,7 +18,8 @@ public class EmailReminderTO {
     private String assunto;
     private String corpo;
 
-    public EmailReminderTO() {
+    //construtores
+    public ReminderTO() {
     }
 
 

@@ -1,9 +1,9 @@
 package br.com.fiap.bo;
 
 
-import br.com.fiap.dao.EmailReminderDAO;
+import br.com.fiap.dao.ReminderDAO;
 import br.com.fiap.service.EmailService;
-import br.com.fiap.to.EmailReminderTO;
+import br.com.fiap.to.ReminderTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import io.quarkus.scheduler.Scheduled;
@@ -14,45 +14,45 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class EmailReminderBO {
+public class ReminderBO {
     @Inject
     private final EmailService service = new EmailService();
     @Inject
-    private EmailReminderDAO reminderEmail;
+    private ReminderDAO reminderEmail;
 
-    public ArrayList<EmailReminderTO> findAll() {
-        reminderEmail = new EmailReminderDAO();
+    public ArrayList<ReminderTO> findAll() {
+        reminderEmail = new ReminderDAO();
         // Lógica de negócio pode ser adicionada aqui
         return reminderEmail.findAll();
     }
 
-    public EmailReminderTO findByCodigo (Long id) {
-        reminderEmail = new EmailReminderDAO();
+    public ReminderTO findByCodigo (Long id) {
+        reminderEmail = new ReminderDAO();
 
         return reminderEmail.findByCodigo(id);
     }
 
-    public EmailReminderTO save(EmailReminderTO reminder){
-        reminderEmail = new EmailReminderDAO();
+    public ReminderTO save(ReminderTO reminder){
+        reminderEmail = new ReminderDAO();
         return reminderEmail.save(reminder);
     }
 
     public boolean delete(Long id){
-        reminderEmail = new EmailReminderDAO();
+        reminderEmail = new ReminderDAO();
         return  reminderEmail.delete(id);
     }
 
     @Scheduled(every = "24h")
     public void sendReminders() {
-        List<EmailReminderTO> reminders = reminderEmail.findReminders7DaysAhead();
+        List<ReminderTO> reminders = reminderEmail.findReminders7DaysAhead();
 
         if (reminders.isEmpty()) {
             System.out.println("Nenhum lembrete dentro dos próximos 7 dias.");
             return;
         }
 
-        for (EmailReminderTO reminder : reminders) {
-            EmailReminderTO email = new EmailReminderTO();
+        for (ReminderTO reminder : reminders) {
+            ReminderTO email = new ReminderTO();
             email.setDestinatario(reminder.getDestinatario());
             email.setAssunto("LumaHC | Lembrete da sua consulta médica");
 
