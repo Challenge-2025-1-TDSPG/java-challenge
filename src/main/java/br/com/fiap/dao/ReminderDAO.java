@@ -1,6 +1,6 @@
 package br.com.fiap.dao;
 
-import br.com.fiap.to.EmailReminderTO;
+import br.com.fiap.to.ReminderTO;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.*;
@@ -10,16 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @ApplicationScoped
-public class EmailReminderDAO {
+public class ReminderDAO {
 
-    public ArrayList<EmailReminderTO> findAll() {
-        ArrayList<EmailReminderTO> reminders = new ArrayList<>();
+    public ArrayList<ReminderTO> findAll() {
+        ArrayList<ReminderTO> reminders = new ArrayList<>();
         String sql = "SELECT * FROM reminder ORDER BY id_reminder";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             if (ps != null) {
                 while (rs.next()) {
-                    EmailReminderTO reminder = new EmailReminderTO();
+                    ReminderTO reminder = new ReminderTO();
                     reminder.setIdReminder(rs.getLong("id_reminder"));
                     reminder.setUserId(rs.getLong("user_account_id_user"));
                     reminder.setDateReminder(rs.getDate("reminder_date").toLocalDate());
@@ -40,8 +40,8 @@ public class EmailReminderDAO {
         return reminders;
     }
 
-    public EmailReminderTO findByCodigo(Long id) {
-        EmailReminderTO reminder = new EmailReminderTO();
+    public ReminderTO findByCodigo(Long id) {
+        ReminderTO reminder = new ReminderTO();
         String sql = "SELECT * FROM reminder WHERE id_reminder = ?";
         try (PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)) {
             ps.setLong(1, id);
@@ -63,7 +63,7 @@ public class EmailReminderDAO {
         return reminder;
     }
 
-    public EmailReminderTO save(EmailReminderTO reminder) {
+    public ReminderTO save(ReminderTO reminder) {
         String sql = "INSERT INTO REMINDER (user_account_id_user, reminder_date, reminder_time, description) " +
            "VALUES (?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
@@ -124,8 +124,8 @@ public class EmailReminderDAO {
         return datas;
     }
 
-    public List<EmailReminderTO> findReminders7DaysAhead() {
-        List<EmailReminderTO> reminders = new ArrayList<>();
+    public List<ReminderTO> findReminders() {
+        List<ReminderTO> reminders = new ArrayList<>();
 
         String sql = """
             SELECT 
@@ -150,7 +150,7 @@ public class EmailReminderDAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                EmailReminderTO reminder = new EmailReminderTO();
+                ReminderTO reminder = new ReminderTO();
                 reminder.setDestinatario(rs.getString("email_user"));
                 reminder.setIdReminder(rs.getLong("id_reminder"));
                 reminder.setUserId(rs.getLong("user_account_id_user"));

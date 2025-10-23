@@ -11,7 +11,6 @@ public class UserBO {
 
     public ArrayList<UserTO> findAll() {
         userDAO = new UserDAO();
-        // Lógica de negócio pode ser adicionada aqui
         return userDAO.findAll();
     }
 
@@ -24,7 +23,6 @@ public class UserBO {
     public UserTO save(UserTO user){
 
         userDAO = new UserDAO();
-        // Lógica de negócio pode ser adicionada aqui
         if (user.getBirthDate().isAfter(LocalDate.now())) {
             return null;
         }

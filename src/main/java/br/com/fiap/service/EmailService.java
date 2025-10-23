@@ -1,6 +1,6 @@
 package br.com.fiap.service;
 
-import br.com.fiap.to.EmailReminderTO;
+import br.com.fiap.to.ReminderTO;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -12,7 +12,7 @@ public class EmailService {
     private final String usuario = "lumahc.suporte@gmail.com";
     private final String senha = "bwli zgdw otfq chaf";
 
-    public void enviarEmail(EmailReminderTO email) throws MessagingException {
+    public void enviarEmail(ReminderTO email) throws MessagingException {
         String host = "smtp.gmail.com";
 
         Properties props = new Properties();
