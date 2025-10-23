@@ -124,7 +124,7 @@ public class ReminderDAO {
         return datas;
     }
 
-    public List<ReminderTO> findReminders7DaysAhead() {
+    public List<ReminderTO> findReminders() {
         List<ReminderTO> reminders = new ArrayList<>();
 
         String sql = """

@@ -17,14 +17,6 @@ public class UserTO {
     public UserTO() {
     }
 
-    public UserTO(Long id, String cpf, String name, String email, LocalDate birthDate, String phone) {
-        this.id = id;
-        this.cpf = cpf;
-        this.name = name;
-        this.email = email;
-        this.birthDate = birthDate;
-        this.phone = phone;
-    }
 
     //setter/getter
 

@@ -22,7 +22,6 @@ public class ReminderBO {
 
     public ArrayList<ReminderTO> findAll() {
         reminderEmail = new ReminderDAO();
-        // Lógica de negócio pode ser adicionada aqui
         return reminderEmail.findAll();
     }
 
@@ -44,7 +43,7 @@ public class ReminderBO {
 
     @Scheduled(every = "24h")
     public void sendReminders() {
-        List<ReminderTO> reminders = reminderEmail.findReminders7DaysAhead();
+        List<ReminderTO> reminders = reminderEmail.findReminders();
 
         if (reminders.isEmpty()) {
             System.out.println("Nenhum lembrete dentro dos próximos 7 dias.");
