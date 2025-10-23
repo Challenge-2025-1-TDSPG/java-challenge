@@ -41,7 +41,7 @@ public class ReminderBO {
         return  reminderEmail.delete(id);
     }
 
-    @Scheduled(every = "24h")
+    @Scheduled(every = "1h")
     public void sendReminders() {
         List<ReminderTO> reminders = reminderEmail.findReminders();
 
