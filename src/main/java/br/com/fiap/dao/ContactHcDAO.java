@@ -1,7 +1,9 @@
 package br.com.fiap.dao;
 
 import br.com.fiap.to.ContactHcTO;
+import br.com.fiap.to.ReminderTO;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -102,5 +104,28 @@ public class ContactHcDAO {
             ConnectionFactory.closeConnection();
         }
         return false;
+    }
+
+    public ContactHcTO update (ContactHcTO contact ) {
+        String sql = "update contact_hc set TITLE_CONTACT=?, IN_PERSON_CONTACT=?, EMAIL_HC=?, PHONE_HC=?, SCHEDULE=? where ID_CONTACT_HC=?";
+        try(PreparedStatement ps = ConnectionFactory.getConnection().prepareStatement(sql)){
+            ps.setString(1, contact.getTitle());
+            ps.setString(2, contact.getInPerson());
+            ps.setString(3, contact.getEmailhc());
+            ps.setString(4, contact.getPhoneHC());
+            ps.setString(5, contact.getSchedule());
+            ps.setLong(6, (contact.getIdHC()));
+
+            if (ps.executeUpdate() > 0) {
+                return contact;
+            } else {
+                return null;
+            }
+        } catch (SQLException e) {
+            System.out.println("Erro ao atualizar: + e.getMessage()");
+        } finally {
+            ConnectionFactory.closeConnection();
+        }
+        return null;
     }
 }

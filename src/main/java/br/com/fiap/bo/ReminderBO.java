@@ -18,32 +18,37 @@ public class ReminderBO {
     @Inject
     private final EmailService service = new EmailService();
     @Inject
-    private ReminderDAO reminderEmail;
+    private ReminderDAO reminderDAO;
 
     public ArrayList<ReminderTO> findAll() {
-        reminderEmail = new ReminderDAO();
-        return reminderEmail.findAll();
+        reminderDAO = new ReminderDAO();
+        return reminderDAO.findAll();
     }
 
     public ReminderTO findByCodigo (Long id) {
-        reminderEmail = new ReminderDAO();
+        reminderDAO = new ReminderDAO();
 
-        return reminderEmail.findByCodigo(id);
+        return reminderDAO.findByCodigo(id);
     }
 
     public ReminderTO save(ReminderTO reminder){
-        reminderEmail = new ReminderDAO();
-        return reminderEmail.save(reminder);
+        reminderDAO = new ReminderDAO();
+        return reminderDAO.save(reminder);
     }
 
     public boolean delete(Long id){
-        reminderEmail = new ReminderDAO();
-        return  reminderEmail.delete(id);
+        reminderDAO = new ReminderDAO();
+        return  reminderDAO.delete(id);
     }
 
-    @Scheduled(every = "24h")
+    public ReminderTO update(ReminderTO reminder){
+        reminderDAO = new ReminderDAO();
+        return reminderDAO.update(reminder);
+    }
+
+    @Scheduled(every = "1h")
     public void sendReminders() {
-        List<ReminderTO> reminders = reminderEmail.findReminders();
+        List<ReminderTO> reminders = reminderDAO.findReminders();
 
         if (reminders.isEmpty()) {
             System.out.println("Nenhum lembrete dentro dos próximos 7 dias.");
