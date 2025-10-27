@@ -14,6 +14,7 @@ public class ReminderTO {
     private LocalTime timeReminder;
     private String descriptionReminder;
 
+    private String numberReminder;
     private String destinatario;
     private String assunto;
     private String corpo;
@@ -62,6 +63,14 @@ public class ReminderTO {
 
     public void setDescriptionReminder(String descriptionReminder) {
         this.descriptionReminder = descriptionReminder;
+    }
+
+    public String getNumberReminder() {
+        return numberReminder;
+    }
+
+    public void setNumberReminder(String numberReminder) {
+        this.numberReminder = numberReminder;
     }
 
     public String getDestinatario() {

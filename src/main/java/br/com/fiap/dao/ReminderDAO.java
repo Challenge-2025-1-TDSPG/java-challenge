@@ -1,7 +1,6 @@
 package br.com.fiap.dao;
 
 import br.com.fiap.to.ReminderTO;
-import br.com.fiap.to.UserTO;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.sql.*;
@@ -128,13 +127,13 @@ public class ReminderDAO {
         List<ReminderTO> reminders = new ArrayList<>();
 
         String sql = """
-            SELECT 
-                u.email_user,
-                r.id_reminder,
-                r.user_account_id_user,
-                r.reminder_date,
-                r.reminder_time,
-                r.description
+            SELECT u.email_user,
+            u.phone_number,        
+            r.id_reminder,
+            r.user_account_id_user,
+            r.reminder_date,
+            r.reminder_time,
+            r.description
             FROM reminder r
             JOIN user_account u ON u.id_user = r.user_account_id_user
             WHERE r.reminder_date BETWEEN ? AND ?
@@ -152,6 +151,7 @@ public class ReminderDAO {
             while (rs.next()) {
                 ReminderTO reminder = new ReminderTO();
                 reminder.setDestinatario(rs.getString("email_user"));
+                reminder.setNumberReminder(rs.getString("phone_number"));
                 reminder.setIdReminder(rs.getLong("id_reminder"));
                 reminder.setUserId(rs.getLong("user_account_id_user"));
                 reminder.setDateReminder(rs.getDate("reminder_date").toLocalDate());
@@ -169,6 +169,7 @@ public class ReminderDAO {
 
         return reminders;
     }
+
 
 
 }
