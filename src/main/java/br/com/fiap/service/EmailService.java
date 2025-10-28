@@ -2,12 +2,14 @@ package br.com.fiap.service;
 
 import br.com.fiap.to.ReminderTO;
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
 
 import java.util.Properties;
 
+@ApplicationScoped
 public class EmailService {
     private static final Dotenv dotenv = Dotenv.load();
 

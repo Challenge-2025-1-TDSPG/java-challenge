@@ -50,7 +50,7 @@ public class ReminderDAO {
                 reminder.setIdReminder(rs.getLong("id_reminder"));
                 reminder.setUserId(rs.getLong("user_account_id_user"));
                 reminder.setDateReminder(rs.getDate("reminder_date").toLocalDate());
-                reminder.setTimeReminder(rs.getTime("reminder_time").toLocalTime());
+                reminder.setTimeReminder(LocalTime.parse(rs.getString("reminder_time")));
                 reminder.setDescriptionReminder(rs.getString("description"));
             } else {
                 return null;
@@ -64,8 +64,7 @@ public class ReminderDAO {
     }
 
     public ReminderTO save(ReminderTO reminder) {
-        String sql = "INSERT INTO REMINDER (user_account_id_user, reminder_date, reminder_time, description) " +
-           "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO REMINDER (user_account_id_user, reminder_date, reminder_time, description) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, new String[]{"id_reminder"})) {
 
@@ -116,7 +115,7 @@ public class ReminderDAO {
                 return null;
             }
         } catch (SQLException e) {
-            System.out.println("Erro ao atualizar: + e.getMessage()");
+            System.out.println("Erro ao atualizar: "+ e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }
@@ -128,7 +127,7 @@ public class ReminderDAO {
 
         String sql = """
             SELECT u.email_user,
-            u.phone_number,        
+            u.phone_user,
             r.id_reminder,
             r.user_account_id_user,
             r.reminder_date,
@@ -151,12 +150,11 @@ public class ReminderDAO {
             while (rs.next()) {
                 ReminderTO reminder = new ReminderTO();
                 reminder.setDestinatario(rs.getString("email_user"));
-                reminder.setNumberReminder(rs.getString("phone_number"));
+                reminder.setNumberReminder(reminder.formatNumber(rs.getString("phone_user")));
                 reminder.setIdReminder(rs.getLong("id_reminder"));
                 reminder.setUserId(rs.getLong("user_account_id_user"));
                 reminder.setDateReminder(rs.getDate("reminder_date").toLocalDate());
-                String timeStr = rs.getString("reminder_time");
-                reminder.setTimeReminder(timeStr != null ? LocalTime.parse(timeStr) : null);
+                reminder.setTimeReminder(LocalTime.parse(rs.getString("reminder_time")));
                 reminder.setDescriptionReminder(rs.getString("description"));
                 reminders.add(reminder);
             }

@@ -94,17 +94,28 @@ public class ReminderBO {
                     reminder.getTimeReminder().format(DateTimeFormatter.ofPattern("HH:mm"))
             );
 
-
             try {
                 emailService.enviarEmail(email);
-                smsService.send(reminder.getNumberReminder(), mensagemSMS);
-
                 System.out.println("E-mail enviado para " + reminder.getDestinatario());
-                System.out.println("SMS enviado para " + reminder.getNumberReminder());
-
             } catch (Exception e) {
-                System.out.println("Erro ao enviar e-mail e sms para " + reminder.getDestinatario() + reminder.getNumberReminder() + ": " + e.getMessage());
+                System.out.println("Erro ao enviar e-mail para " + reminder.getDestinatario() + ": " + e.getMessage());
             }
+
+            try { smsService.send(reminder.getNumberReminder(), mensagemSMS);
+                System.out.println("SMS enviado para " + reminder.getNumberReminder());
+            } catch (Exception e) {
+                System.out.println("Erro ao enviar SMS para " + reminder.getNumberReminder() + ": " + e.getMessage());
+            }
+//            try {
+//                emailService.enviarEmail(email);
+//                smsService.send(reminder.getNumberReminder(), mensagemSMS);
+//
+//                System.out.println("E-mail enviado para " + reminder.getDestinatario());
+//                System.out.println("SMS enviado para " + reminder.getNumberReminder());
+//
+//            } catch (Exception e) {
+//                System.out.println("Erro ao enviar e-mail e sms para " + reminder.getDestinatario() + reminder.getNumberReminder() + ": " + e.getMessage());
+//            }
 
         }
     }

@@ -4,7 +4,9 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.enterprise.context.ApplicationScoped;
 
+@ApplicationScoped
 public class  SmsService {
     private static final Dotenv dotenv = Dotenv.load();
 
