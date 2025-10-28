@@ -1,14 +1,11 @@
 package br.com.fiap.dao;
 
-import io.github.cdimascio.dotenv.Dotenv;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionFactory {
     private static Connection connection;
-    private static final Dotenv dotenv = Dotenv.load();
 
     public static void closeConnection() {
         try {
@@ -27,9 +24,9 @@ public class ConnectionFactory {
             }
             Class.forName("oracle.jdbc.driver.OracleDriver");
 
-            String url = dotenv.get("DB_URL");
-            String user = dotenv.get("DB_USER");
-            String password = dotenv.get("DB_PASSWORD");
+            String url = System.getenv("DB_URL");
+            String user = System.getenv("DB_USER");
+            String password = System.getenv("DB_PASSWORD");
 
             if (url == null || user == null || password == null) {
                 throw new IllegalStateException("As variáveis de ambiente DB_URL, DB_USER ou DB_PASSWORD não estão definidas no arquivo .env.");
