@@ -7,7 +7,6 @@ public class LoginBO {
     public boolean autenticar(LoginTO loginTO) {
 
         if (loginTO.getCpf() == null || loginTO.getCpf().isEmpty()) {
-
             System.out.println("CPF não informado");
             return false;
         }

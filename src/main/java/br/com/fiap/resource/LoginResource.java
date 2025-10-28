@@ -18,11 +18,9 @@ public class LoginResource {
         boolean autenticado = bo.autenticar(loginTO);
 
         if (autenticado) {
-            return Response.ok("{\"message\":\"Login bem-sucedido\"}").build();
+            return Response.ok().build();
         } else {
-            return Response.status(Response.Status.UNAUTHORIZED)
-               .entity("{\"error\":\"CPF ou data de nascimento inválidos\"}")
-               .build();
+            return Response.status(401).build();
         }
     }
 }
