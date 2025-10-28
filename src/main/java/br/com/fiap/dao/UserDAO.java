@@ -30,8 +30,8 @@ public class UserDAO {
             }else {
                 return null;
             }
-    } catch (SQLException e) {
-            System.out.println("Erro na consulta: " + e.getMessage());
+        } catch (SQLException e) {
+                System.out.println("Erro na consulta: " + e.getMessage());
         } finally {
             ConnectionFactory.closeConnection();
         }

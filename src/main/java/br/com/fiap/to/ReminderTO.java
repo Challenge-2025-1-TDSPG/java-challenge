@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-@JsonIgnoreProperties({"destinatario", "assunto", "corpo"})
+@JsonIgnoreProperties({"destinatario", "assunto", "corpo","numberReminder"})
 public class ReminderTO {
 
     // Atributos
@@ -14,6 +14,7 @@ public class ReminderTO {
     private LocalTime timeReminder;
     private String descriptionReminder;
 
+    private String numberReminder;
     private String destinatario;
     private String assunto;
     private String corpo;
@@ -64,6 +65,14 @@ public class ReminderTO {
         this.descriptionReminder = descriptionReminder;
     }
 
+    public String getNumberReminder() {
+        return numberReminder;
+    }
+
+    public void setNumberReminder(String numberReminder) {
+        this.numberReminder = numberReminder;
+    }
+
     public String getDestinatario() {
         return destinatario;
     }
@@ -87,4 +96,15 @@ public class ReminderTO {
     public void setCorpo(String corpo) {
         this.corpo = corpo;
     }
+
+    public String formatNumber(String number) {
+        if (number == null) return null;
+        String digits = number.replaceAll("\\D", "");
+        if (digits.startsWith("55")) {
+            return "+" + digits;
+        } else {
+            return "+55" + digits;
+        }
+    }
+
 }

@@ -3,6 +3,7 @@ package br.com.fiap.bo;
 
 import br.com.fiap.dao.ReminderDAO;
 import br.com.fiap.service.EmailService;
+import br.com.fiap.service.SmsService;
 import br.com.fiap.to.ReminderTO;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
@@ -16,9 +17,11 @@ import java.util.List;
 @ApplicationScoped
 public class ReminderBO {
     @Inject
-    private final EmailService service = new EmailService();
+    EmailService emailService;
     @Inject
-    private ReminderDAO reminderDAO;
+    SmsService smsService;
+    @Inject
+    ReminderDAO reminderDAO;
 
     public ArrayList<ReminderTO> findAll() {
         reminderDAO = new ReminderDAO();
@@ -48,6 +51,8 @@ public class ReminderBO {
 
     @Scheduled(every = "1h")
     public void sendReminders() {
+        emailService = new EmailService();
+        smsService = new SmsService();
         List<ReminderTO> reminders = reminderDAO.findReminders();
 
         if (reminders.isEmpty()) {
@@ -55,33 +60,63 @@ public class ReminderBO {
             return;
         }
 
+
         for (ReminderTO reminder : reminders) {
+            // EMAIL
             ReminderTO email = new ReminderTO();
             email.setDestinatario(reminder.getDestinatario());
             email.setAssunto("LumaHC | Lembrete da sua consulta médica");
 
-            String corpo = String.format("""
-                Olá, este é um lembrete da sua consulta agendada.
+            String corpoEmail = String.format("""
+            Olá, este é um lembrete da sua consulta agendada.
 
-                📅 Data: %s
-                ⏰ Horário: %s
-                🏥 Local: Hospital das Clínicas - Unidade IMREA VILA MARIANA
+            📅 Data: %s
+            ⏰ Horário: %s
+            🏥 Local: Hospital das Clínicas - Unidade IMREA VILA MARIANA
 
-                Caso precise reagendar, entre em contato com nossa equipe.
-                Atenciosamente,
-                Equipe LumaHC
-                """,
-               reminder.getDateReminder().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-               reminder.getTimeReminder().format(DateTimeFormatter.ofPattern("HH:mm"))
+            Caso precise reagendar, entre em contato com nossa equipe.
+            Atenciosamente,
+            Equipe LumaHC
+            """,
+                    reminder.getDateReminder().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    reminder.getTimeReminder().format(DateTimeFormatter.ofPattern("HH:mm"))
             );
 
-            email.setCorpo(corpo);
+            email.setCorpo(corpoEmail);
+
+            //SMS
+            String mensagemSMS = String.format("i\n" +
+                            "Olá, este é um lembrete da sua consulta agendada.\n\n" +
+                            "📅 Data: %s\n" +
+                            "⏰ Horário: %s\n" +
+                            "🏥 Local: Hospital das Clínicas - Unidade IMREA VILA MARIANA",
+                    reminder.getDateReminder().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+                    reminder.getTimeReminder().format(DateTimeFormatter.ofPattern("HH:mm"))
+            );
 
             try {
-                service.enviarEmail(email);
+                emailService.enviarEmail(email);
+                System.out.println("E-mail enviado para " + reminder.getDestinatario());
             } catch (Exception e) {
                 System.out.println("Erro ao enviar e-mail para " + reminder.getDestinatario() + ": " + e.getMessage());
             }
+
+            try { smsService.send(reminder.getNumberReminder(), mensagemSMS);
+                System.out.println("SMS enviado para " + reminder.getNumberReminder());
+            } catch (Exception e) {
+                System.out.println("Erro ao enviar SMS para " + reminder.getNumberReminder() + ": " + e.getMessage());
+            }
+//            try {
+//                emailService.enviarEmail(email);
+//                smsService.send(reminder.getNumberReminder(), mensagemSMS);
+//
+//                System.out.println("E-mail enviado para " + reminder.getDestinatario());
+//                System.out.println("SMS enviado para " + reminder.getNumberReminder());
+//
+//            } catch (Exception e) {
+//                System.out.println("Erro ao enviar e-mail e sms para " + reminder.getDestinatario() + reminder.getNumberReminder() + ": " + e.getMessage());
+//            }
+
         }
     }
 

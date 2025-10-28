@@ -2,7 +2,6 @@ package br.com.fiap.resource;
 
 import br.com.fiap.bo.ContactHcBO;
 import br.com.fiap.to.ContactHcTO;
-import br.com.fiap.to.ReminderTO;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;

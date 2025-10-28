@@ -2,7 +2,6 @@ package br.com.fiap.resource;
 
 import br.com.fiap.bo.ReminderBO;
 import br.com.fiap.to.ReminderTO;
-import br.com.fiap.to.UserTO;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
