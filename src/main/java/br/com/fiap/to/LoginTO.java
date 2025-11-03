@@ -30,4 +30,7 @@ public class LoginTO {
         return passwordDate;
     }
 
+    public void setPasswordDate(LocalDate passwordDate) {
+        this.passwordDate = passwordDate;
+    }
 }
