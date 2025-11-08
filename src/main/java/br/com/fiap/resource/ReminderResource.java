@@ -91,4 +91,13 @@ public class ReminderResource {
         response.entity(resultado);
         return response.build();
     }
+
+    @GET
+    @Path("/run")
+    @Produces(MediaType.TEXT_PLAIN)
+    public Response runRemindersNow() {
+        reminderBO.sendReminders();
+        return Response.ok().build();
+    }
+
 }
