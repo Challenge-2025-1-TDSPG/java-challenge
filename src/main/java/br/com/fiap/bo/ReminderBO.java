@@ -49,7 +49,7 @@ public class ReminderBO {
         return reminderDAO.update(reminder);
     }
 
-    @Scheduled(every = "1h")
+    @Scheduled(every = "2m")
     public void sendReminders() {
         emailService = new EmailService();
         smsService = new SmsService();
