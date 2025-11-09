@@ -97,6 +97,7 @@ public class ReminderTO {
         this.corpo = corpo;
     }
 
+    //metodos
     public String formatNumber(String number) {
         if (number == null) return null;
         String digits = number.replaceAll("\\D", "");

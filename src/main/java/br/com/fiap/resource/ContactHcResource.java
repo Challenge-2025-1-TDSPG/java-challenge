@@ -84,9 +84,9 @@ public class ContactHcResource {
         ContactHcTO resultado = contactBO.update(contactHc);
         Response.ResponseBuilder response = null;
         if (resultado != null) {
-            response = Response.created(null); // 201 created
+            response = Response.created(null);
         } else {
-            response = Response.status(400); // 400 Bad Request
+            response = Response.status(400);
         }
         response.entity(resultado);
         return response.build();

@@ -84,7 +84,7 @@ public class ReminderResource {
         ReminderTO resultado = reminderBO.update(reminder);
         Response.ResponseBuilder response = null;
         if (resultado != null) {
-            response = Response.created(null); // 201 created
+            response = Response.created(null); //200
         } else {
             response = Response.status(400); // 400 Bad Request
         }

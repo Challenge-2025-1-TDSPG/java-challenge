@@ -14,7 +14,7 @@ public class  SmsService {
 
     public SmsService() {
         if (accountSid == null || authToken == null) {
-            throw new IllegalStateException("As variáveis de ambiente ACCOUNT_SID e AUTH_TOKEN não estão definidas no arquivo .env.");
+            throw new IllegalStateException("As variáveis de ambiente ACCOUNT_SID e AUTH_TOKEN não estão definidas");
         }
 
         Twilio.init(accountSid, authToken);
